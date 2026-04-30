@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
 
       # ── uv ────────────────────────────────────────────────────────────────
       - name: Install uv
@@ -44,7 +43,7 @@ jobs:
 
       # ── Tests ──────────────────────────────────────────────────────────────
       - name: Run tests
-        run: uv run pytest tests/ -v || true
+        run: uv run pytest tests/ -v
 
       # ── Version: read from pyproject.toml and add PR suffix ────────────────
       - name: Create pre-release version
@@ -68,8 +67,7 @@ jobs:
       # ── Publish to GitHub Packages ─────────────────────────────────────────
       - name: Publish pre-release to GitHub Packages
         run: |
-          uv pip install twine
-          twine upload dist/* -u __token__ -p ${{ secrets.GITHUB_TOKEN }} --repository-url https://ghcr.io/v2/${{ github.repository_owner }}/
+          uvx twine upload dist/* -u __token__ -p ${{ secrets.GITHUB_TOKEN }} --repository-url https://pypi.pkg.github.com/${{ github.repository_owner }}/
         env:
           TWINE_NON_INTERACTIVE: true
 
