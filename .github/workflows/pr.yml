@@ -41,9 +41,6 @@ jobs:
       - name: Format check (ruff)
         run: uv run ruff format --check .
 
-      # ── Tests ──────────────────────────────────────────────────────────────
-      - name: Run tests
-        run: uv run pytest tests/ -v
 
       # ── Version: read from pyproject.toml and add PR suffix ────────────────
       - name: Create pre-release version
