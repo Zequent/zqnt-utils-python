@@ -4,68 +4,29 @@ Shared utilities for ZQNT services and adapters. Published to GitHub Packages (p
 
 ## Installation
 
-### 1. GitHub Token erstellen
+Das Package wird als `.whl`-Datei über [GitHub Releases](https://github.com/ZEQUENT_ORG/zqnt-utils-python/releases) verteilt. Kein Package-Registry-Token nötig — nur Zugriff auf das Repository.
 
-Gehe zu [GitHub → Settings → Developer settings → Personal access tokens (classic)](https://github.com/settings/tokens) und erstelle einen Token mit dem Scope:
+### Stable Release
 
-- `read:packages`
+```bash
+uv add "zqnt-utils @ https://github.com/ZEQUENT_ORG/zqnt-utils-python/releases/download/v0.1.0/zqnt_utils-0.1.0-py3-none-any.whl"
+```
 
-### 2. Token konfigurieren
-
-**Option A – global für uv** (`~/.config/uv/uv.toml`):
+### Als Abhängigkeit im Projekt (`pyproject.toml`)
 
 ```toml
-[[index]]
-name = "zequent"
-url = "https://pypi.pkg.github.com/ZEQUENT_ORG/simple/"
-authenticate = true
+[project]
+dependencies = [
+    "zqnt-utils @ https://github.com/ZEQUENT_ORG/zqnt-utils-python/releases/download/v0.1.0/zqnt_utils-0.1.0-py3-none-any.whl",
+]
 ```
 
-Dann den Token als Umgebungsvariable setzen (z.B. in `.bashrc` / `.zshrc`):
+### Pre-release (aus PR)
+
+Der PR-Kommentar enthält den genauen Install-Befehl, z.B.:
 
 ```bash
-export UV_INDEX_ZEQUENT_USERNAME=__token__
-export UV_INDEX_ZEQUENT_PASSWORD=ghp_deintoken
-```
-
----
-
-**Option B – direkt im Projekt** (`pyproject.toml`):
-
-```toml
-[[tool.uv.index]]
-name = "zequent"
-url = "https://pypi.pkg.github.com/ZEQUENT_ORG/simple/"
-authenticate = true
-```
-
-Token ebenfalls als Umgebungsvariable (siehe oben) oder in `.env`.
-
----
-
-**Option C – Token direkt in der URL** (nicht für `.env`-lose CI empfohlen):
-
-```bash
-uv add zqnt-utils \
-  --index https://__token__:ghp_deintoken@pypi.pkg.github.com/ZEQUENT_ORG/simple/
-```
-
-### 3. Package installieren
-
-```bash
-uv add zqnt-utils
-```
-
-Für eine bestimmte Version:
-
-```bash
-uv add zqnt-utils==0.1.0
-```
-
-Pre-release (z.B. von einem PR):
-
-```bash
-uv add "zqnt-utils==0.1.0.post42.devABC123" --prerelease=allow
+uv add "zqnt-utils @ https://github.com/ZEQUENT_ORG/zqnt-utils-python/releases/download/v0.1.0.post42.devABC123/zqnt_utils-0.1.0.post42.devABC123-py3-none-any.whl"
 ```
 
 ---
