@@ -20,18 +20,21 @@ class EdgeEndpointDTO:
           "assetVendor": "DJI"
         }
     """
+
     endpoint: str
     online: bool
-    asset_type: str    # enum name, e.g. "DOCK"
+    asset_type: str  # enum name, e.g. "DOCK"
     asset_vendor: str  # enum name, e.g. "DJI"
 
     def to_json(self) -> str:
-        return json.dumps({
-            "endpoint":   self.endpoint,
-            "online":     self.online,
-            "assetType":  self.asset_type,
-            "assetVendor": self.asset_vendor,
-        })
+        return json.dumps(
+            {
+                "endpoint": self.endpoint,
+                "online": self.online,
+                "assetType": self.asset_type,
+                "assetVendor": self.asset_vendor,
+            }
+        )
 
     @classmethod
     def from_json(cls, data: str) -> "EdgeEndpointDTO":

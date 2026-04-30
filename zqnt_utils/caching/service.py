@@ -39,7 +39,9 @@ class CachingService:
         self._client = None
 
     @classmethod
-    def from_env(cls, url_env: str = "REDIS_URL", default: str = "redis://localhost:6379") -> "CachingService":
+    def from_env(
+        cls, url_env: str = "REDIS_URL", default: str = "redis://localhost:6379"
+    ) -> "CachingService":
         """Build from the ``REDIS_URL`` environment variable (or *url_env*)."""
         return cls(os.environ.get(url_env, default))
 
@@ -50,6 +52,7 @@ class CachingService:
     async def connect(self) -> None:
         """Open a persistent connection pool."""
         import redis.asyncio as aioredis
+
         self._client = aioredis.from_url(self._redis_url, decode_responses=True)
         logger.debug("CachingService connected to %s", self._redis_url)
 
@@ -88,7 +91,9 @@ class CachingService:
         try:
             return EdgeEndpointDTO.from_json(data)
         except Exception as exc:
-            logger.error("Failed to parse EdgeEndpointDTO for vendor %s: %s", vendor, exc)
+            logger.error(
+                "Failed to parse EdgeEndpointDTO for vendor %s: %s", vendor, exc
+            )
             return None
 
     async def deregister_edge_endpoint(self, vendor: str) -> None:
@@ -99,7 +104,9 @@ class CachingService:
         """
         dto = await self.get_edge_endpoint(vendor)
         if dto is None:
-            logger.warning("Cannot deregister non-existent endpoint for vendor: %s", vendor)
+            logger.warning(
+                "Cannot deregister non-existent endpoint for vendor: %s", vendor
+            )
             return
         dto.online = False
         key = CacheKeys.EDGE_ENDPOINTS.build(vendor=vendor)
