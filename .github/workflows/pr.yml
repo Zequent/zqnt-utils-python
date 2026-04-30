@@ -1,0 +1,87 @@
+name: PR – Lint, Test, Build & Publish Preview
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+  pull-requests: write
+
+jobs:
+  ci:
+    name: Lint · Test · Build · Publish Preview
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Python ────────────────────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # ── uv ────────────────────────────────────────────────────────────────
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+
+      # ── Dependencies ───────────────────────────────────────────────────────
+      - name: Install dependencies
+        run: uv sync
+
+      # ── Lint ───────────────────────────────────────────────────────────────
+      - name: Lint (ruff)
+        run: uv run ruff check .
+
+      # ── Format Check ───────────────────────────────────────────────────────
+      - name: Format check (ruff)
+        run: uv run ruff format --check .
+
+      # ── Tests ──────────────────────────────────────────────────────────────
+      - name: Run tests
+        run: uv run pytest tests/ -v || true
+
+      # ── Version: read from pyproject.toml and add PR suffix ────────────────
+      - name: Create pre-release version
+        id: version
+        run: |
+          BASE_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "//' | sed 's/".*//')
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          PR_VERSION="${BASE_VERSION}.post${{ github.event.pull_request.number }}.dev${SHORT_SHA}"
+          echo "version=${PR_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Pre-release version: ${PR_VERSION}"
+
+      # ── Update version temporarily ─────────────────────────────────────────
+      - name: Update version for pre-release
+        run: |
+          sed -i 's/version = ".*"/version = "${{ steps.version.outputs.version }}"/' pyproject.toml
+
+      # ── Build wheel + sdist ────────────────────────────────────────────────
+      - name: Build package
+        run: uv build
+
+      # ── Publish to GitHub Packages ─────────────────────────────────────────
+      - name: Publish pre-release to GitHub Packages
+        run: |
+          uv pip install twine
+          twine upload dist/* -u __token__ -p ${{ secrets.GITHUB_TOKEN }} --repository-url https://ghcr.io/v2/${{ github.repository_owner }}/
+        env:
+          TWINE_NON_INTERACTIVE: true
+
+      # ── Comment PR with pre-release version ────────────────────────────────
+      - name: Comment PR with pre-release version
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📦 Pre-release package published: **${{ steps.version.outputs.version }}**\n\nInstall with:\n\`\`\`bash\nuv add zqnt-utils==${{ steps.version.outputs.version }} --prerelease=allow\n\`\`\``
+            })

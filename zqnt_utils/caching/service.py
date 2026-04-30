@@ -18,6 +18,8 @@ import logging
 import os
 from typing import Any
 
+import redis.asyncio
+
 from .keys import CacheKeys
 from ..core.dto import EdgeEndpointDTO
 
@@ -154,7 +156,7 @@ class CachingService:
     # Internal
     # ------------------------------------------------------------------
 
-    async def _get_client(self):
+    async def _get_client(self) -> redis.asyncio.Redis | None:
         if self._client is None:
             await self.connect()
         return self._client
