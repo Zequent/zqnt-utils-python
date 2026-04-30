@@ -55,7 +55,7 @@ jobs:
       # ── Publish to GitHub Packages ─────────────────────────────────────────
       - name: Publish to GitHub Packages
         run: |
-          uvx twine upload dist/* -u __token__ -p ${{ secrets.GITHUB_TOKEN }} --repository-url https://pypi.pkg.github.com/${{ github.repository_owner }}/
+          uvx twine upload dist/* -u __token__ -p ${{ secrets.GITHUB_TOKEN }} --repository-url https://pkg.github.com/${{ github.repository_owner }}/
         env:
           TWINE_NON_INTERACTIVE: true
 
