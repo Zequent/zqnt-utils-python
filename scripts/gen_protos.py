@@ -49,7 +49,9 @@ def run() -> None:
         f"--proto_path={PROTO_DIR}",
         f"--proto_path={WELL_KNOWN_PROTOS}",
         f"--python_out={OUT_DIR}",
+        f"--pyi_out={OUT_DIR}",
         f"--grpc_python_out={OUT_DIR}",
+        f"--mypy_grpc_out={OUT_DIR}",
         *[str(p) for p in proto_files],
     ]
 
@@ -74,7 +76,7 @@ def _fix_imports(directory: Path) -> None:
 
     bare_import = re.compile(r"^import (\w+_pb2) as (\w+)$", re.MULTILINE)
 
-    for py_file in directory.glob("*.py"):
+    for py_file in [*directory.glob("*.py"), *directory.glob("*.pyi")]:
         src = py_file.read_text()
         patched = bare_import.sub(r"from . import \1 as \2", src)
         if patched != src:
