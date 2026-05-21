@@ -116,6 +116,7 @@ class AssetMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     ASSET_MODE_UPGRADING: _ClassVar[AssetMode]
     ASSET_MODE_WORKING: _ClassVar[AssetMode]
     ASSET_MODE_TO_BE_CALIBRATED: _ClassVar[AssetMode]
+    ASSET_MODE_OFFLINE: _ClassVar[AssetMode]
 
 class SubAssetMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -159,6 +160,7 @@ class AssetTypeEnum(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     ASSET_TYPE_OTHER: _ClassVar[AssetTypeEnum]
     ASSET_TYPE_JAMMER: _ClassVar[AssetTypeEnum]
     ASSET_TYPE_CYBER_ATTACK: _ClassVar[AssetTypeEnum]
+    ASSET_TYPE_SAPIENT: _ClassVar[AssetTypeEnum]
 
 class AssetVendor(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -484,6 +486,7 @@ ASSET_MODE_REMOTE_DEBUGGING: AssetMode
 ASSET_MODE_UPGRADING: AssetMode
 ASSET_MODE_WORKING: AssetMode
 ASSET_MODE_TO_BE_CALIBRATED: AssetMode
+ASSET_MODE_OFFLINE: AssetMode
 SUBASSET_MODE_IDLE: SubAssetMode
 SUBASSET_MODE_TAKEOFF_PREPARE: SubAssetMode
 SUBASSET_MODE_TAKEOFF_FINISHED: SubAssetMode
@@ -518,6 +521,7 @@ ASSET_TYPE_CAMERA: AssetTypeEnum
 ASSET_TYPE_OTHER: AssetTypeEnum
 ASSET_TYPE_JAMMER: AssetTypeEnum
 ASSET_TYPE_CYBER_ATTACK: AssetTypeEnum
+ASSET_TYPE_SAPIENT: AssetTypeEnum
 ASSET_VENDOR_DJI: AssetVendor
 ASSET_VENDOR_AUTEL: AssetVendor
 ASSET_VENDOR_ROS: AssetVendor
@@ -797,8 +801,8 @@ class LiveStreamState(_message.Message):
     stream_url: str
     is_live: bool
     started_at: _timestamp_pb2.Timestamp
-    asset_type: str
-    def __init__(self, video_id: _Optional[str] = ..., stream_url: _Optional[str] = ..., is_live: bool = ..., started_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., asset_type: _Optional[str] = ...) -> None: ...
+    asset_type: AssetTypeEnum
+    def __init__(self, video_id: _Optional[str] = ..., stream_url: _Optional[str] = ..., is_live: bool = ..., started_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., asset_type: _Optional[_Union[AssetTypeEnum, str]] = ...) -> None: ...
 
 class LiveStreamStartResponse(_message.Message):
     __slots__ = ("stream_url", "video_id")
@@ -854,6 +858,40 @@ class CommandProgress(_message.Message):
     left_time_in_seconds: float
     def __init__(self, progress: _Optional[float] = ..., state: _Optional[str] = ..., left_time_in_seconds: _Optional[float] = ...) -> None: ...
 
+class BoundingBox(_message.Message):
+    __slots__ = ("x", "y", "width", "height")
+    X_FIELD_NUMBER: _ClassVar[int]
+    Y_FIELD_NUMBER: _ClassVar[int]
+    WIDTH_FIELD_NUMBER: _ClassVar[int]
+    HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    x: float
+    y: float
+    width: float
+    height: float
+    def __init__(self, x: _Optional[float] = ..., y: _Optional[float] = ..., width: _Optional[float] = ..., height: _Optional[float] = ...) -> None: ...
+
+class DetectionResult(_message.Message):
+    __slots__ = ("object_id", "object_type", "confidence", "bounding_box")
+    OBJECT_ID_FIELD_NUMBER: _ClassVar[int]
+    OBJECT_TYPE_FIELD_NUMBER: _ClassVar[int]
+    CONFIDENCE_FIELD_NUMBER: _ClassVar[int]
+    BOUNDING_BOX_FIELD_NUMBER: _ClassVar[int]
+    object_id: str
+    object_type: str
+    confidence: float
+    bounding_box: BoundingBox
+    def __init__(self, object_id: _Optional[str] = ..., object_type: _Optional[str] = ..., confidence: _Optional[float] = ..., bounding_box: _Optional[_Union[BoundingBox, _Mapping]] = ...) -> None: ...
+
+class DetectionBatch(_message.Message):
+    __slots__ = ("base", "detections", "stream_url")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    DETECTIONS_FIELD_NUMBER: _ClassVar[int]
+    STREAM_URL_FIELD_NUMBER: _ClassVar[int]
+    base: RequestBase
+    detections: _containers.RepeatedCompositeFieldContainer[DetectionResult]
+    stream_url: str
+    def __init__(self, base: _Optional[_Union[RequestBase, _Mapping]] = ..., detections: _Optional[_Iterable[_Union[DetectionResult, _Mapping]]] = ..., stream_url: _Optional[str] = ...) -> None: ...
+
 class ManualControlState(_message.Message):
     __slots__ = ("state", "sn", "asset_id", "active", "client_id", "user_id", "session_id")
     STATE_FIELD_NUMBER: _ClassVar[int]
@@ -904,9 +942,9 @@ class AssetProtoDTO(_message.Message):
     id: str
     sn: str
     name: str
-    type: str
-    vendor: str
-    connection: str
+    type: AssetTypeEnum
+    vendor: AssetVendor
+    connection: AssetConnection
     connection_string: str
     model: str
     port: int
@@ -918,7 +956,7 @@ class AssetProtoDTO(_message.Message):
     sub_asset_dto: SubAssetProtoDTO
     external_id: str
     stream_type: LiveStreamTypeEnum
-    def __init__(self, id: _Optional[str] = ..., sn: _Optional[str] = ..., name: _Optional[str] = ..., type: _Optional[str] = ..., vendor: _Optional[str] = ..., connection: _Optional[str] = ..., connection_string: _Optional[str] = ..., model: _Optional[str] = ..., port: _Optional[int] = ..., live_stream_server: _Optional[str] = ..., external_device_type: _Optional[str] = ..., external_device_sub_type: _Optional[str] = ..., organization: _Optional[str] = ..., online: bool = ..., sub_asset_dto: _Optional[_Union[SubAssetProtoDTO, _Mapping]] = ..., external_id: _Optional[str] = ..., stream_type: _Optional[_Union[LiveStreamTypeEnum, str]] = ...) -> None: ...
+    def __init__(self, id: _Optional[str] = ..., sn: _Optional[str] = ..., name: _Optional[str] = ..., type: _Optional[_Union[AssetTypeEnum, str]] = ..., vendor: _Optional[_Union[AssetVendor, str]] = ..., connection: _Optional[_Union[AssetConnection, str]] = ..., connection_string: _Optional[str] = ..., model: _Optional[str] = ..., port: _Optional[int] = ..., live_stream_server: _Optional[str] = ..., external_device_type: _Optional[str] = ..., external_device_sub_type: _Optional[str] = ..., organization: _Optional[str] = ..., online: bool = ..., sub_asset_dto: _Optional[_Union[SubAssetProtoDTO, _Mapping]] = ..., external_id: _Optional[str] = ..., stream_type: _Optional[_Union[LiveStreamTypeEnum, str]] = ...) -> None: ...
 
 class SubAssetProtoDTO(_message.Message):
     __slots__ = ("id", "sn", "name", "type", "vendor", "connection", "connection_string", "model", "port", "live_stream_server", "external_device_type", "external_device_sub_type", "organization", "online", "external_id", "stream_type", "stream_url_predefined")
@@ -942,9 +980,9 @@ class SubAssetProtoDTO(_message.Message):
     id: str
     sn: str
     name: str
-    type: str
-    vendor: str
-    connection: str
+    type: AssetTypeEnum
+    vendor: AssetVendor
+    connection: AssetConnection
     connection_string: str
     model: str
     port: int
@@ -956,7 +994,7 @@ class SubAssetProtoDTO(_message.Message):
     external_id: str
     stream_type: LiveStreamTypeEnum
     stream_url_predefined: bool
-    def __init__(self, id: _Optional[str] = ..., sn: _Optional[str] = ..., name: _Optional[str] = ..., type: _Optional[str] = ..., vendor: _Optional[str] = ..., connection: _Optional[str] = ..., connection_string: _Optional[str] = ..., model: _Optional[str] = ..., port: _Optional[int] = ..., live_stream_server: _Optional[str] = ..., external_device_type: _Optional[str] = ..., external_device_sub_type: _Optional[str] = ..., organization: _Optional[str] = ..., online: bool = ..., external_id: _Optional[str] = ..., stream_type: _Optional[_Union[LiveStreamTypeEnum, str]] = ..., stream_url_predefined: bool = ...) -> None: ...
+    def __init__(self, id: _Optional[str] = ..., sn: _Optional[str] = ..., name: _Optional[str] = ..., type: _Optional[_Union[AssetTypeEnum, str]] = ..., vendor: _Optional[_Union[AssetVendor, str]] = ..., connection: _Optional[_Union[AssetConnection, str]] = ..., connection_string: _Optional[str] = ..., model: _Optional[str] = ..., port: _Optional[int] = ..., live_stream_server: _Optional[str] = ..., external_device_type: _Optional[str] = ..., external_device_sub_type: _Optional[str] = ..., organization: _Optional[str] = ..., online: bool = ..., external_id: _Optional[str] = ..., stream_type: _Optional[_Union[LiveStreamTypeEnum, str]] = ..., stream_url_predefined: bool = ...) -> None: ...
 
 class OrganizationProtoDTO(_message.Message):
     __slots__ = ("id", "name", "description", "assets")

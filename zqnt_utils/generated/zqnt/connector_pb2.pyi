@@ -299,6 +299,56 @@ class ConnectorStoreTelemetryRequest(_message.Message):
     sub_asset_telemetry: SubAssetTelemetryProto
     def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., type: _Optional[_Union[TelemetryType, str]] = ..., asset_telemetry: _Optional[_Union[AssetTelemetryProto, _Mapping]] = ..., sub_asset_telemetry: _Optional[_Union[SubAssetTelemetryProto, _Mapping]] = ...) -> None: ...
 
+class ConnectorStoreDetectionRequest(_message.Message):
+    __slots__ = ("base", "asset_sn", "sub_asset_sn", "task_id", "object_id", "object_type", "confidence", "bounding_box_x", "bounding_box_y", "bounding_box_width", "bounding_box_height", "stream_url", "detected_at")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    ASSET_SN_FIELD_NUMBER: _ClassVar[int]
+    SUB_ASSET_SN_FIELD_NUMBER: _ClassVar[int]
+    TASK_ID_FIELD_NUMBER: _ClassVar[int]
+    OBJECT_ID_FIELD_NUMBER: _ClassVar[int]
+    OBJECT_TYPE_FIELD_NUMBER: _ClassVar[int]
+    CONFIDENCE_FIELD_NUMBER: _ClassVar[int]
+    BOUNDING_BOX_X_FIELD_NUMBER: _ClassVar[int]
+    BOUNDING_BOX_Y_FIELD_NUMBER: _ClassVar[int]
+    BOUNDING_BOX_WIDTH_FIELD_NUMBER: _ClassVar[int]
+    BOUNDING_BOX_HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    STREAM_URL_FIELD_NUMBER: _ClassVar[int]
+    DETECTED_AT_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    asset_sn: str
+    sub_asset_sn: str
+    task_id: str
+    object_id: str
+    object_type: str
+    confidence: float
+    bounding_box_x: float
+    bounding_box_y: float
+    bounding_box_width: float
+    bounding_box_height: float
+    stream_url: str
+    detected_at: _timestamp_pb2.Timestamp
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., asset_sn: _Optional[str] = ..., sub_asset_sn: _Optional[str] = ..., task_id: _Optional[str] = ..., object_id: _Optional[str] = ..., object_type: _Optional[str] = ..., confidence: _Optional[float] = ..., bounding_box_x: _Optional[float] = ..., bounding_box_y: _Optional[float] = ..., bounding_box_width: _Optional[float] = ..., bounding_box_height: _Optional[float] = ..., stream_url: _Optional[str] = ..., detected_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
+
+class ConnectorStoreNotificationRequest(_message.Message):
+    __slots__ = ("base", "event_type", "asset_sn", "asset_id", "title", "message", "task_id", "operation_id")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    EVENT_TYPE_FIELD_NUMBER: _ClassVar[int]
+    ASSET_SN_FIELD_NUMBER: _ClassVar[int]
+    ASSET_ID_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    TASK_ID_FIELD_NUMBER: _ClassVar[int]
+    OPERATION_ID_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    event_type: str
+    asset_sn: str
+    asset_id: str
+    title: str
+    message: str
+    task_id: str
+    operation_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., event_type: _Optional[str] = ..., asset_sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., title: _Optional[str] = ..., message: _Optional[str] = ..., task_id: _Optional[str] = ..., operation_id: _Optional[str] = ...) -> None: ...
+
 class AssetTelemetryProto(_message.Message):
     __slots__ = ("asset_id", "timestamp", "latitude", "longitude", "altitude", "relative_altitude", "heading", "temperature", "humidity", "wind_speed", "battery_percentage", "network_type", "network_quality", "operational_mode", "is_online", "source_system", "telemetry_data")
     class TelemetryDataEntry(_message.Message):

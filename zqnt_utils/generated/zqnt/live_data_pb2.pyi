@@ -3,12 +3,25 @@ import datetime
 from google.protobuf import empty_pb2 as _empty_pb2
 from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from . import common_pb2 as _common_pb2
+from google.protobuf.internal import containers as _containers
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from collections.abc import Mapping as _Mapping
+from collections.abc import Iterable as _Iterable, Mapping as _Mapping
 from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
+
+class NotificationEventType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    NOTIFICATION_EVENT_UNSPECIFIED: _ClassVar[NotificationEventType]
+    NOTIFICATION_EVENT_ASSET_STATUS: _ClassVar[NotificationEventType]
+    NOTIFICATION_EVENT_TASK: _ClassVar[NotificationEventType]
+    NOTIFICATION_EVENT_OPERATION: _ClassVar[NotificationEventType]
+NOTIFICATION_EVENT_UNSPECIFIED: NotificationEventType
+NOTIFICATION_EVENT_ASSET_STATUS: NotificationEventType
+NOTIFICATION_EVENT_TASK: NotificationEventType
+NOTIFICATION_EVENT_OPERATION: NotificationEventType
 
 class LiveDataResponse(_message.Message):
     __slots__ = ("tid", "timestamp", "has_errors", "sn", "asset_id", "response_message", "asset_telemetry", "sub_asset_telemetry", "empty", "error", "live_stream_start_response")
@@ -153,6 +166,32 @@ class LiveDataCapturePhotoRequest(_message.Message):
     BASE_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ...) -> None: ...
+
+class LiveDataStreamDetectionsRequest(_message.Message):
+    __slots__ = ("base", "stream_url")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    STREAM_URL_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    stream_url: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., stream_url: _Optional[str] = ...) -> None: ...
+
+class LiveDataDetectionResponse(_message.Message):
+    __slots__ = ("tid", "timestamp", "has_errors", "sn", "asset_id", "detections", "error")
+    TID_FIELD_NUMBER: _ClassVar[int]
+    TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
+    HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
+    SN_FIELD_NUMBER: _ClassVar[int]
+    ASSET_ID_FIELD_NUMBER: _ClassVar[int]
+    DETECTIONS_FIELD_NUMBER: _ClassVar[int]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    tid: str
+    timestamp: _timestamp_pb2.Timestamp
+    has_errors: bool
+    sn: str
+    asset_id: str
+    detections: _common_pb2.DetectionBatch
+    error: _common_pb2.GlobalErrorMessage
+    def __init__(self, tid: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., has_errors: bool = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., detections: _Optional[_Union[_common_pb2.DetectionBatch, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ...) -> None: ...
 
 class AssetTelemetry(_message.Message):
     __slots__ = ("id", "timestamp", "latitude", "longitude", "absolute_altitude", "relative_altitude", "environment_temp", "inside_temp", "humidity", "mode", "rainfall", "sub_asset_information", "sub_asset_at_home", "sub_asset_charging", "sub_asset_percentage", "heading", "debug_mode_open", "has_active_manual_control_session", "cover_state", "working_voltage", "working_current", "supply_voltage", "wind_speed", "position_valid", "network_information", "air_conditioner", "manual_control_state", "position_state")
@@ -347,3 +386,83 @@ class PayloadTelemetry(_message.Message):
     sensor_data: PayloadTelemetry.SensorData
     name: str
     def __init__(self, id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., camera_data: _Optional[_Union[PayloadTelemetry.CameraData, _Mapping]] = ..., range_finder_data: _Optional[_Union[PayloadTelemetry.RangeFinderData, _Mapping]] = ..., sensor_data: _Optional[_Union[PayloadTelemetry.SensorData, _Mapping]] = ..., name: _Optional[str] = ...) -> None: ...
+
+class LiveDataStreamNotificationsRequest(_message.Message):
+    __slots__ = ("base", "event_types")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    EVENT_TYPES_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    event_types: _containers.RepeatedScalarFieldContainer[NotificationEventType]
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., event_types: _Optional[_Iterable[_Union[NotificationEventType, str]]] = ...) -> None: ...
+
+class AssetStatusEvent(_message.Message):
+    __slots__ = ("sn", "asset_id", "online")
+    SN_FIELD_NUMBER: _ClassVar[int]
+    ASSET_ID_FIELD_NUMBER: _ClassVar[int]
+    ONLINE_FIELD_NUMBER: _ClassVar[int]
+    sn: str
+    asset_id: str
+    online: bool
+    def __init__(self, sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., online: bool = ...) -> None: ...
+
+class TaskEvent(_message.Message):
+    __slots__ = ("task_id", "task_type", "status", "progress", "message")
+    TASK_ID_FIELD_NUMBER: _ClassVar[int]
+    TASK_TYPE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
+    PROGRESS_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    task_id: str
+    task_type: _common_pb2.TaskTypeProto
+    status: _common_pb2.TaskStatus
+    progress: float
+    message: str
+    def __init__(self, task_id: _Optional[str] = ..., task_type: _Optional[_Union[_common_pb2.TaskTypeProto, str]] = ..., status: _Optional[_Union[_common_pb2.TaskStatus, str]] = ..., progress: _Optional[float] = ..., message: _Optional[str] = ...) -> None: ...
+
+class OperationEvent(_message.Message):
+    __slots__ = ("operation_id", "mission_type", "status", "message")
+    OPERATION_ID_FIELD_NUMBER: _ClassVar[int]
+    MISSION_TYPE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    operation_id: str
+    mission_type: _common_pb2.MissionType
+    status: _common_pb2.MissionStatus
+    message: str
+    def __init__(self, operation_id: _Optional[str] = ..., mission_type: _Optional[_Union[_common_pb2.MissionType, str]] = ..., status: _Optional[_Union[_common_pb2.MissionStatus, str]] = ..., message: _Optional[str] = ...) -> None: ...
+
+class LiveDataNotificationResponse(_message.Message):
+    __slots__ = ("tid", "timestamp", "has_errors", "sn", "asset_id", "asset_status", "task_event", "operation_event", "error")
+    TID_FIELD_NUMBER: _ClassVar[int]
+    TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
+    HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
+    SN_FIELD_NUMBER: _ClassVar[int]
+    ASSET_ID_FIELD_NUMBER: _ClassVar[int]
+    ASSET_STATUS_FIELD_NUMBER: _ClassVar[int]
+    TASK_EVENT_FIELD_NUMBER: _ClassVar[int]
+    OPERATION_EVENT_FIELD_NUMBER: _ClassVar[int]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    tid: str
+    timestamp: _timestamp_pb2.Timestamp
+    has_errors: bool
+    sn: str
+    asset_id: str
+    asset_status: AssetStatusEvent
+    task_event: TaskEvent
+    operation_event: OperationEvent
+    error: _common_pb2.GlobalErrorMessage
+    def __init__(self, tid: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., has_errors: bool = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., asset_status: _Optional[_Union[AssetStatusEvent, _Mapping]] = ..., task_event: _Optional[_Union[TaskEvent, _Mapping]] = ..., operation_event: _Optional[_Union[OperationEvent, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ...) -> None: ...
+
+class ProduceNotificationRequest(_message.Message):
+    __slots__ = ("base", "asset_status", "task_event", "operation_event", "error")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    ASSET_STATUS_FIELD_NUMBER: _ClassVar[int]
+    TASK_EVENT_FIELD_NUMBER: _ClassVar[int]
+    OPERATION_EVENT_FIELD_NUMBER: _ClassVar[int]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    asset_status: AssetStatusEvent
+    task_event: TaskEvent
+    operation_event: OperationEvent
+    error: _common_pb2.GlobalErrorMessage
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., asset_status: _Optional[_Union[AssetStatusEvent, _Mapping]] = ..., task_event: _Optional[_Union[TaskEvent, _Mapping]] = ..., operation_event: _Optional[_Union[OperationEvent, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ...) -> None: ...

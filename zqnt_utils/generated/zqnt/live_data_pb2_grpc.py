@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+from . import common_pb2 as common__pb2
 from . import live_data_pb2 as live__data__pb2
 
 GRPC_GENERATED_VERSION = '1.80.0'
@@ -45,6 +46,26 @@ class LiveDataServiceStub(object):
         self.ProduceTelemetry = channel.stream_unary(
                 '/LiveDataService/ProduceTelemetry',
                 request_serializer=live__data__pb2.ProduceTelemetryRequest.SerializeToString,
+                response_deserializer=live__data__pb2.LiveDataResponse.FromString,
+                _registered_method=True)
+        self.StreamDetections = channel.unary_stream(
+                '/LiveDataService/StreamDetections',
+                request_serializer=live__data__pb2.LiveDataStreamDetectionsRequest.SerializeToString,
+                response_deserializer=live__data__pb2.LiveDataDetectionResponse.FromString,
+                _registered_method=True)
+        self.ProduceDetection = channel.stream_unary(
+                '/LiveDataService/ProduceDetection',
+                request_serializer=common__pb2.DetectionBatch.SerializeToString,
+                response_deserializer=live__data__pb2.LiveDataResponse.FromString,
+                _registered_method=True)
+        self.StreamNotifications = channel.unary_stream(
+                '/LiveDataService/StreamNotifications',
+                request_serializer=live__data__pb2.LiveDataStreamNotificationsRequest.SerializeToString,
+                response_deserializer=live__data__pb2.LiveDataNotificationResponse.FromString,
+                _registered_method=True)
+        self.ProduceNotification = channel.stream_unary(
+                '/LiveDataService/ProduceNotification',
+                request_serializer=live__data__pb2.ProduceNotificationRequest.SerializeToString,
                 response_deserializer=live__data__pb2.LiveDataResponse.FromString,
                 _registered_method=True)
         self.StartLiveStream = channel.unary_unary(
@@ -98,7 +119,35 @@ class LiveDataServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def ProduceTelemetry(self, request_iterator, context):
-        """Telemetry Production - Clients (Edge adapters) send telemetry to server
+        """Telemetry Production - Edge adapters push telemetry to server
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StreamDetections(self, request, context):
+        """Detection Streaming - clients subscribe to detection events
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ProduceDetection(self, request_iterator, context):
+        """Detection Production - Edge adapters push detection batches to server
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StreamNotifications(self, request, context):
+        """Notification Streaming - clients subscribe to system/lifecycle events
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ProduceNotification(self, request_iterator, context):
+        """Notification Production - server-side services push notification events
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -158,6 +207,26 @@ def add_LiveDataServiceServicer_to_server(servicer, server):
             'ProduceTelemetry': grpc.stream_unary_rpc_method_handler(
                     servicer.ProduceTelemetry,
                     request_deserializer=live__data__pb2.ProduceTelemetryRequest.FromString,
+                    response_serializer=live__data__pb2.LiveDataResponse.SerializeToString,
+            ),
+            'StreamDetections': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamDetections,
+                    request_deserializer=live__data__pb2.LiveDataStreamDetectionsRequest.FromString,
+                    response_serializer=live__data__pb2.LiveDataDetectionResponse.SerializeToString,
+            ),
+            'ProduceDetection': grpc.stream_unary_rpc_method_handler(
+                    servicer.ProduceDetection,
+                    request_deserializer=common__pb2.DetectionBatch.FromString,
+                    response_serializer=live__data__pb2.LiveDataResponse.SerializeToString,
+            ),
+            'StreamNotifications': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamNotifications,
+                    request_deserializer=live__data__pb2.LiveDataStreamNotificationsRequest.FromString,
+                    response_serializer=live__data__pb2.LiveDataNotificationResponse.SerializeToString,
+            ),
+            'ProduceNotification': grpc.stream_unary_rpc_method_handler(
+                    servicer.ProduceNotification,
+                    request_deserializer=live__data__pb2.ProduceNotificationRequest.FromString,
                     response_serializer=live__data__pb2.LiveDataResponse.SerializeToString,
             ),
             'StartLiveStream': grpc.unary_unary_rpc_method_handler(
@@ -252,6 +321,114 @@ class LiveDataService(object):
             target,
             '/LiveDataService/ProduceTelemetry',
             live__data__pb2.ProduceTelemetryRequest.SerializeToString,
+            live__data__pb2.LiveDataResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamDetections(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/LiveDataService/StreamDetections',
+            live__data__pb2.LiveDataStreamDetectionsRequest.SerializeToString,
+            live__data__pb2.LiveDataDetectionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ProduceDetection(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/LiveDataService/ProduceDetection',
+            common__pb2.DetectionBatch.SerializeToString,
+            live__data__pb2.LiveDataResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamNotifications(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/LiveDataService/StreamNotifications',
+            live__data__pb2.LiveDataStreamNotificationsRequest.SerializeToString,
+            live__data__pb2.LiveDataNotificationResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ProduceNotification(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/LiveDataService/ProduceNotification',
+            live__data__pb2.ProduceNotificationRequest.SerializeToString,
             live__data__pb2.LiveDataResponse.FromString,
             options,
             channel_credentials,

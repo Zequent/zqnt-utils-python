@@ -165,6 +165,16 @@ class ConnectorServiceStub(object):
                 request_serializer=connector__pb2.ConnectorStoreTelemetryRequest.SerializeToString,
                 response_deserializer=connector__pb2.ConnectorResponse.FromString,
                 _registered_method=True)
+        self.StoreDetectionBatch = channel.stream_unary(
+                '/ConnectorService/StoreDetectionBatch',
+                request_serializer=connector__pb2.ConnectorStoreDetectionRequest.SerializeToString,
+                response_deserializer=connector__pb2.ConnectorResponse.FromString,
+                _registered_method=True)
+        self.StoreNotificationBatch = channel.stream_unary(
+                '/ConnectorService/StoreNotificationBatch',
+                request_serializer=connector__pb2.ConnectorStoreNotificationRequest.SerializeToString,
+                response_deserializer=connector__pb2.ConnectorResponse.FromString,
+                _registered_method=True)
 
 
 class ConnectorServiceServicer(object):
@@ -328,6 +338,20 @@ class ConnectorServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def StoreDetectionBatch(self, request_iterator, context):
+        """Detection Storage - batch processing from live-data service (high-frequency, TimescaleDB)
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StoreNotificationBatch(self, request_iterator, context):
+        """Notification Storage - batch processing from live-data service
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ConnectorServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -459,6 +483,16 @@ def add_ConnectorServiceServicer_to_server(servicer, server):
             'StoreTelemetryBatch': grpc.stream_unary_rpc_method_handler(
                     servicer.StoreTelemetryBatch,
                     request_deserializer=connector__pb2.ConnectorStoreTelemetryRequest.FromString,
+                    response_serializer=connector__pb2.ConnectorResponse.SerializeToString,
+            ),
+            'StoreDetectionBatch': grpc.stream_unary_rpc_method_handler(
+                    servicer.StoreDetectionBatch,
+                    request_deserializer=connector__pb2.ConnectorStoreDetectionRequest.FromString,
+                    response_serializer=connector__pb2.ConnectorResponse.SerializeToString,
+            ),
+            'StoreNotificationBatch': grpc.stream_unary_rpc_method_handler(
+                    servicer.StoreNotificationBatch,
+                    request_deserializer=connector__pb2.ConnectorStoreNotificationRequest.FromString,
                     response_serializer=connector__pb2.ConnectorResponse.SerializeToString,
             ),
     }
@@ -1164,6 +1198,60 @@ class ConnectorService(object):
             target,
             '/ConnectorService/StoreTelemetryBatch',
             connector__pb2.ConnectorStoreTelemetryRequest.SerializeToString,
+            connector__pb2.ConnectorResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StoreDetectionBatch(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/ConnectorService/StoreDetectionBatch',
+            connector__pb2.ConnectorStoreDetectionRequest.SerializeToString,
+            connector__pb2.ConnectorResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StoreNotificationBatch(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(
+            request_iterator,
+            target,
+            '/ConnectorService/StoreNotificationBatch',
+            connector__pb2.ConnectorStoreNotificationRequest.SerializeToString,
             connector__pb2.ConnectorResponse.FromString,
             options,
             channel_credentials,

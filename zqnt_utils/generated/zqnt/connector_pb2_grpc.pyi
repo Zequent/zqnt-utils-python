@@ -60,6 +60,10 @@ class ConnectorServiceStub:
     DeleteSchedulersByTask: _grpc.UnaryUnaryMultiCallable[_connector_pb2.ConnectorDeleteSchedulersByTaskRequest, _connector_pb2.ConnectorResponse]
     StoreTelemetryBatch: _grpc.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreTelemetryRequest, _connector_pb2.ConnectorResponse]
     """Telemetry Storage - batch processing from live-data service"""
+    StoreDetectionBatch: _grpc.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreDetectionRequest, _connector_pb2.ConnectorResponse]
+    """Detection Storage - batch processing from live-data service (high-frequency, TimescaleDB)"""
+    StoreNotificationBatch: _grpc.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreNotificationRequest, _connector_pb2.ConnectorResponse]
+    """Notification Storage - batch processing from live-data service"""
 
 @_typing.type_check_only
 class ConnectorServiceAsyncStub(ConnectorServiceStub):
@@ -93,6 +97,10 @@ class ConnectorServiceAsyncStub(ConnectorServiceStub):
     DeleteSchedulersByTask: _aio.UnaryUnaryMultiCallable[_connector_pb2.ConnectorDeleteSchedulersByTaskRequest, _connector_pb2.ConnectorResponse]  # type: ignore[assignment]
     StoreTelemetryBatch: _aio.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreTelemetryRequest, _connector_pb2.ConnectorResponse]  # type: ignore[assignment]
     """Telemetry Storage - batch processing from live-data service"""
+    StoreDetectionBatch: _aio.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreDetectionRequest, _connector_pb2.ConnectorResponse]  # type: ignore[assignment]
+    """Detection Storage - batch processing from live-data service (high-frequency, TimescaleDB)"""
+    StoreNotificationBatch: _aio.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreNotificationRequest, _connector_pb2.ConnectorResponse]  # type: ignore[assignment]
+    """Notification Storage - batch processing from live-data service"""
 
 class ConnectorServiceServicer(metaclass=_abc_1.ABCMeta):
     """ConnectorService provides RPC methods for managing assets, missions, tasks, schedulers, and telemetry data."""
@@ -279,5 +287,21 @@ class ConnectorServiceServicer(metaclass=_abc_1.ABCMeta):
         context: _ServicerContext,
     ) -> _typing.Union[_connector_pb2.ConnectorResponse, _abc.Awaitable[_connector_pb2.ConnectorResponse]]:
         """Telemetry Storage - batch processing from live-data service"""
+
+    @_abc_1.abstractmethod
+    def StoreDetectionBatch(
+        self,
+        request_iterator: _MaybeAsyncIterator[_connector_pb2.ConnectorStoreDetectionRequest],
+        context: _ServicerContext,
+    ) -> _typing.Union[_connector_pb2.ConnectorResponse, _abc.Awaitable[_connector_pb2.ConnectorResponse]]:
+        """Detection Storage - batch processing from live-data service (high-frequency, TimescaleDB)"""
+
+    @_abc_1.abstractmethod
+    def StoreNotificationBatch(
+        self,
+        request_iterator: _MaybeAsyncIterator[_connector_pb2.ConnectorStoreNotificationRequest],
+        context: _ServicerContext,
+    ) -> _typing.Union[_connector_pb2.ConnectorResponse, _abc.Awaitable[_connector_pb2.ConnectorResponse]]:
+        """Notification Storage - batch processing from live-data service"""
 
 def add_ConnectorServiceServicer_to_server(servicer: ConnectorServiceServicer, server: _typing.Union[_grpc.Server, _aio.Server]) -> None: ...

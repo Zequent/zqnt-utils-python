@@ -6,6 +6,7 @@ isort:skip_file
 from collections import abc as _abc
 from grpc import aio as _aio
 import abc as _abc_1
+from . import common_pb2 as _common_pb2
 import grpc as _grpc
 from . import live_data_pb2 as _live_data_pb2
 import sys
@@ -39,7 +40,15 @@ class LiveDataServiceStub:
     StreamTelemetry: _grpc.UnaryStreamMultiCallable[_live_data_pb2.LiveDataStreamTelemetryRequest, _live_data_pb2.LiveDataTelemetryResponse]
     """Telemetry Streaming - Server sends telemetry to clients"""
     ProduceTelemetry: _grpc.StreamUnaryMultiCallable[_live_data_pb2.ProduceTelemetryRequest, _live_data_pb2.LiveDataResponse]
-    """Telemetry Production - Clients (Edge adapters) send telemetry to server"""
+    """Telemetry Production - Edge adapters push telemetry to server"""
+    StreamDetections: _grpc.UnaryStreamMultiCallable[_live_data_pb2.LiveDataStreamDetectionsRequest, _live_data_pb2.LiveDataDetectionResponse]
+    """Detection Streaming - clients subscribe to detection events"""
+    ProduceDetection: _grpc.StreamUnaryMultiCallable[_common_pb2.DetectionBatch, _live_data_pb2.LiveDataResponse]
+    """Detection Production - Edge adapters push detection batches to server"""
+    StreamNotifications: _grpc.UnaryStreamMultiCallable[_live_data_pb2.LiveDataStreamNotificationsRequest, _live_data_pb2.LiveDataNotificationResponse]
+    """Notification Streaming - clients subscribe to system/lifecycle events"""
+    ProduceNotification: _grpc.StreamUnaryMultiCallable[_live_data_pb2.ProduceNotificationRequest, _live_data_pb2.LiveDataResponse]
+    """Notification Production - server-side services push notification events"""
     StartLiveStream: _grpc.UnaryUnaryMultiCallable[_live_data_pb2.LiveDataStartLiveStreamRequest, _live_data_pb2.LiveDataResponse]
     """Live Stream Management"""
     StopLiveStream: _grpc.UnaryUnaryMultiCallable[_live_data_pb2.LiveDataStopLiveStreamRequest, _live_data_pb2.LiveDataResponse]
@@ -60,7 +69,15 @@ class LiveDataServiceAsyncStub(LiveDataServiceStub):
     StreamTelemetry: _aio.UnaryStreamMultiCallable[_live_data_pb2.LiveDataStreamTelemetryRequest, _live_data_pb2.LiveDataTelemetryResponse]  # type: ignore[assignment]
     """Telemetry Streaming - Server sends telemetry to clients"""
     ProduceTelemetry: _aio.StreamUnaryMultiCallable[_live_data_pb2.ProduceTelemetryRequest, _live_data_pb2.LiveDataResponse]  # type: ignore[assignment]
-    """Telemetry Production - Clients (Edge adapters) send telemetry to server"""
+    """Telemetry Production - Edge adapters push telemetry to server"""
+    StreamDetections: _aio.UnaryStreamMultiCallable[_live_data_pb2.LiveDataStreamDetectionsRequest, _live_data_pb2.LiveDataDetectionResponse]  # type: ignore[assignment]
+    """Detection Streaming - clients subscribe to detection events"""
+    ProduceDetection: _aio.StreamUnaryMultiCallable[_common_pb2.DetectionBatch, _live_data_pb2.LiveDataResponse]  # type: ignore[assignment]
+    """Detection Production - Edge adapters push detection batches to server"""
+    StreamNotifications: _aio.UnaryStreamMultiCallable[_live_data_pb2.LiveDataStreamNotificationsRequest, _live_data_pb2.LiveDataNotificationResponse]  # type: ignore[assignment]
+    """Notification Streaming - clients subscribe to system/lifecycle events"""
+    ProduceNotification: _aio.StreamUnaryMultiCallable[_live_data_pb2.ProduceNotificationRequest, _live_data_pb2.LiveDataResponse]  # type: ignore[assignment]
+    """Notification Production - server-side services push notification events"""
     StartLiveStream: _aio.UnaryUnaryMultiCallable[_live_data_pb2.LiveDataStartLiveStreamRequest, _live_data_pb2.LiveDataResponse]  # type: ignore[assignment]
     """Live Stream Management"""
     StopLiveStream: _aio.UnaryUnaryMultiCallable[_live_data_pb2.LiveDataStopLiveStreamRequest, _live_data_pb2.LiveDataResponse]  # type: ignore[assignment]
@@ -90,7 +107,39 @@ class LiveDataServiceServicer(metaclass=_abc_1.ABCMeta):
         request_iterator: _MaybeAsyncIterator[_live_data_pb2.ProduceTelemetryRequest],
         context: _ServicerContext,
     ) -> _typing.Union[_live_data_pb2.LiveDataResponse, _abc.Awaitable[_live_data_pb2.LiveDataResponse]]:
-        """Telemetry Production - Clients (Edge adapters) send telemetry to server"""
+        """Telemetry Production - Edge adapters push telemetry to server"""
+
+    @_abc_1.abstractmethod
+    def StreamDetections(
+        self,
+        request: _live_data_pb2.LiveDataStreamDetectionsRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_abc.Iterator[_live_data_pb2.LiveDataDetectionResponse], _abc.AsyncIterator[_live_data_pb2.LiveDataDetectionResponse]]:
+        """Detection Streaming - clients subscribe to detection events"""
+
+    @_abc_1.abstractmethod
+    def ProduceDetection(
+        self,
+        request_iterator: _MaybeAsyncIterator[_common_pb2.DetectionBatch],
+        context: _ServicerContext,
+    ) -> _typing.Union[_live_data_pb2.LiveDataResponse, _abc.Awaitable[_live_data_pb2.LiveDataResponse]]:
+        """Detection Production - Edge adapters push detection batches to server"""
+
+    @_abc_1.abstractmethod
+    def StreamNotifications(
+        self,
+        request: _live_data_pb2.LiveDataStreamNotificationsRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_abc.Iterator[_live_data_pb2.LiveDataNotificationResponse], _abc.AsyncIterator[_live_data_pb2.LiveDataNotificationResponse]]:
+        """Notification Streaming - clients subscribe to system/lifecycle events"""
+
+    @_abc_1.abstractmethod
+    def ProduceNotification(
+        self,
+        request_iterator: _MaybeAsyncIterator[_live_data_pb2.ProduceNotificationRequest],
+        context: _ServicerContext,
+    ) -> _typing.Union[_live_data_pb2.LiveDataResponse, _abc.Awaitable[_live_data_pb2.LiveDataResponse]]:
+        """Notification Production - server-side services push notification events"""
 
     @_abc_1.abstractmethod
     def StartLiveStream(
