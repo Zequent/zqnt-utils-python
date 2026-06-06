@@ -46,7 +46,7 @@ jobs:
         run: |
           BASE_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "//' | sed 's/".*//')
           SHORT_SHA=$(git rev-parse --short HEAD)
-          PR_VERSION="${BASE_VERSION}.post${{ github.event.pull_request.number }}.dev${SHORT_SHA}"
+          PR_VERSION="${BASE_VERSION}.post${{ github.event.pull_request.number }}.dev0"
           echo "version=${PR_VERSION}" >> "$GITHUB_OUTPUT"
           echo "Pre-release version: ${PR_VERSION}"
 
