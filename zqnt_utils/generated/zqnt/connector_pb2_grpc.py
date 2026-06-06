@@ -175,6 +175,21 @@ class ConnectorServiceStub(object):
                 request_serializer=connector__pb2.ConnectorStoreNotificationRequest.SerializeToString,
                 response_deserializer=connector__pb2.ConnectorResponse.FromString,
                 _registered_method=True)
+        self.GetActivePoliciesByType = channel.unary_unary(
+                '/ConnectorService/GetActivePoliciesByType',
+                request_serializer=connector__pb2.ConnectorGetPoliciesRequest.SerializeToString,
+                response_deserializer=connector__pb2.ConnectorPolicyResponse.FromString,
+                _registered_method=True)
+        self.GetAllActivePolicies = channel.unary_unary(
+                '/ConnectorService/GetAllActivePolicies',
+                request_serializer=connector__pb2.ConnectorGetAllPoliciesRequest.SerializeToString,
+                response_deserializer=connector__pb2.ConnectorPolicyResponse.FromString,
+                _registered_method=True)
+        self.GetTechnicalConfigs = channel.unary_unary(
+                '/ConnectorService/GetTechnicalConfigs',
+                request_serializer=connector__pb2.ConnectorGetConfigsRequest.SerializeToString,
+                response_deserializer=connector__pb2.ConnectorConfigResponse.FromString,
+                _registered_method=True)
 
 
 class ConnectorServiceServicer(object):
@@ -352,6 +367,26 @@ class ConnectorServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetActivePoliciesByType(self, request, context):
+        """Policy Management - fetched by Mission-Autonomy for decision engine cache
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAllActivePolicies(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetTechnicalConfigs(self, request, context):
+        """Technical Config - fetched by services for runtime configuration
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ConnectorServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -494,6 +529,21 @@ def add_ConnectorServiceServicer_to_server(servicer, server):
                     servicer.StoreNotificationBatch,
                     request_deserializer=connector__pb2.ConnectorStoreNotificationRequest.FromString,
                     response_serializer=connector__pb2.ConnectorResponse.SerializeToString,
+            ),
+            'GetActivePoliciesByType': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetActivePoliciesByType,
+                    request_deserializer=connector__pb2.ConnectorGetPoliciesRequest.FromString,
+                    response_serializer=connector__pb2.ConnectorPolicyResponse.SerializeToString,
+            ),
+            'GetAllActivePolicies': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllActivePolicies,
+                    request_deserializer=connector__pb2.ConnectorGetAllPoliciesRequest.FromString,
+                    response_serializer=connector__pb2.ConnectorPolicyResponse.SerializeToString,
+            ),
+            'GetTechnicalConfigs': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetTechnicalConfigs,
+                    request_deserializer=connector__pb2.ConnectorGetConfigsRequest.FromString,
+                    response_serializer=connector__pb2.ConnectorConfigResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -1253,6 +1303,87 @@ class ConnectorService(object):
             '/ConnectorService/StoreNotificationBatch',
             connector__pb2.ConnectorStoreNotificationRequest.SerializeToString,
             connector__pb2.ConnectorResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetActivePoliciesByType(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ConnectorService/GetActivePoliciesByType',
+            connector__pb2.ConnectorGetPoliciesRequest.SerializeToString,
+            connector__pb2.ConnectorPolicyResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetAllActivePolicies(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ConnectorService/GetAllActivePolicies',
+            connector__pb2.ConnectorGetAllPoliciesRequest.SerializeToString,
+            connector__pb2.ConnectorPolicyResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetTechnicalConfigs(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/ConnectorService/GetTechnicalConfigs',
+            connector__pb2.ConnectorGetConfigsRequest.SerializeToString,
+            connector__pb2.ConnectorConfigResponse.FromString,
             options,
             channel_credentials,
             insecure,

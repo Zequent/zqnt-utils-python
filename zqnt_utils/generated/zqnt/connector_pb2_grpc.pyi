@@ -64,6 +64,11 @@ class ConnectorServiceStub:
     """Detection Storage - batch processing from live-data service (high-frequency, TimescaleDB)"""
     StoreNotificationBatch: _grpc.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreNotificationRequest, _connector_pb2.ConnectorResponse]
     """Notification Storage - batch processing from live-data service"""
+    GetActivePoliciesByType: _grpc.UnaryUnaryMultiCallable[_connector_pb2.ConnectorGetPoliciesRequest, _connector_pb2.ConnectorPolicyResponse]
+    """Policy Management - fetched by Mission-Autonomy for decision engine cache"""
+    GetAllActivePolicies: _grpc.UnaryUnaryMultiCallable[_connector_pb2.ConnectorGetAllPoliciesRequest, _connector_pb2.ConnectorPolicyResponse]
+    GetTechnicalConfigs: _grpc.UnaryUnaryMultiCallable[_connector_pb2.ConnectorGetConfigsRequest, _connector_pb2.ConnectorConfigResponse]
+    """Technical Config - fetched by services for runtime configuration"""
 
 @_typing.type_check_only
 class ConnectorServiceAsyncStub(ConnectorServiceStub):
@@ -101,6 +106,11 @@ class ConnectorServiceAsyncStub(ConnectorServiceStub):
     """Detection Storage - batch processing from live-data service (high-frequency, TimescaleDB)"""
     StoreNotificationBatch: _aio.StreamUnaryMultiCallable[_connector_pb2.ConnectorStoreNotificationRequest, _connector_pb2.ConnectorResponse]  # type: ignore[assignment]
     """Notification Storage - batch processing from live-data service"""
+    GetActivePoliciesByType: _aio.UnaryUnaryMultiCallable[_connector_pb2.ConnectorGetPoliciesRequest, _connector_pb2.ConnectorPolicyResponse]  # type: ignore[assignment]
+    """Policy Management - fetched by Mission-Autonomy for decision engine cache"""
+    GetAllActivePolicies: _aio.UnaryUnaryMultiCallable[_connector_pb2.ConnectorGetAllPoliciesRequest, _connector_pb2.ConnectorPolicyResponse]  # type: ignore[assignment]
+    GetTechnicalConfigs: _aio.UnaryUnaryMultiCallable[_connector_pb2.ConnectorGetConfigsRequest, _connector_pb2.ConnectorConfigResponse]  # type: ignore[assignment]
+    """Technical Config - fetched by services for runtime configuration"""
 
 class ConnectorServiceServicer(metaclass=_abc_1.ABCMeta):
     """ConnectorService provides RPC methods for managing assets, missions, tasks, schedulers, and telemetry data."""
@@ -303,5 +313,28 @@ class ConnectorServiceServicer(metaclass=_abc_1.ABCMeta):
         context: _ServicerContext,
     ) -> _typing.Union[_connector_pb2.ConnectorResponse, _abc.Awaitable[_connector_pb2.ConnectorResponse]]:
         """Notification Storage - batch processing from live-data service"""
+
+    @_abc_1.abstractmethod
+    def GetActivePoliciesByType(
+        self,
+        request: _connector_pb2.ConnectorGetPoliciesRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_connector_pb2.ConnectorPolicyResponse, _abc.Awaitable[_connector_pb2.ConnectorPolicyResponse]]:
+        """Policy Management - fetched by Mission-Autonomy for decision engine cache"""
+
+    @_abc_1.abstractmethod
+    def GetAllActivePolicies(
+        self,
+        request: _connector_pb2.ConnectorGetAllPoliciesRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_connector_pb2.ConnectorPolicyResponse, _abc.Awaitable[_connector_pb2.ConnectorPolicyResponse]]: ...
+
+    @_abc_1.abstractmethod
+    def GetTechnicalConfigs(
+        self,
+        request: _connector_pb2.ConnectorGetConfigsRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_connector_pb2.ConnectorConfigResponse, _abc.Awaitable[_connector_pb2.ConnectorConfigResponse]]:
+        """Technical Config - fetched by services for runtime configuration"""
 
 def add_ConnectorServiceServicer_to_server(servicer: ConnectorServiceServicer, server: _typing.Union[_grpc.Server, _aio.Server]) -> None: ...

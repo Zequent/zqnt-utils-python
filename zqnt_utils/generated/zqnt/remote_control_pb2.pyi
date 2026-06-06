@@ -12,7 +12,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class RemoteControlResponse(_message.Message):
-    __slots__ = ("has_errors", "tid", "sn", "asset_id", "timestamp", "response_message", "empty", "error", "progress")
+    __slots__ = ("has_errors", "tid", "sn", "asset_id", "timestamp", "response_message", "empty", "error", "progress", "external_id")
     HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
     TID_FIELD_NUMBER: _ClassVar[int]
     SN_FIELD_NUMBER: _ClassVar[int]
@@ -22,6 +22,7 @@ class RemoteControlResponse(_message.Message):
     EMPTY_FIELD_NUMBER: _ClassVar[int]
     ERROR_FIELD_NUMBER: _ClassVar[int]
     PROGRESS_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_ID_FIELD_NUMBER: _ClassVar[int]
     has_errors: bool
     tid: str
     sn: str
@@ -31,23 +32,28 @@ class RemoteControlResponse(_message.Message):
     empty: _empty_pb2.Empty
     error: _common_pb2.GlobalErrorMessage
     progress: _common_pb2.CommandProgress
-    def __init__(self, has_errors: bool = ..., tid: _Optional[str] = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., response_message: _Optional[str] = ..., empty: _Optional[_Union[_empty_pb2.Empty, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., progress: _Optional[_Union[_common_pb2.CommandProgress, _Mapping]] = ...) -> None: ...
+    external_id: str
+    def __init__(self, has_errors: bool = ..., tid: _Optional[str] = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., response_message: _Optional[str] = ..., empty: _Optional[_Union[_empty_pb2.Empty, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., progress: _Optional[_Union[_common_pb2.CommandProgress, _Mapping]] = ..., external_id: _Optional[str] = ...) -> None: ...
 
 class RemoteControlTakeOffRequest(_message.Message):
-    __slots__ = ("base", "request")
+    __slots__ = ("base", "request", "external_id")
     BASE_FIELD_NUMBER: _ClassVar[int]
     REQUEST_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_ID_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     request: _common_pb2.Coordinates
-    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ...) -> None: ...
+    external_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ..., external_id: _Optional[str] = ...) -> None: ...
 
 class RemoteControlGoToRequest(_message.Message):
-    __slots__ = ("base", "request")
+    __slots__ = ("base", "request", "external_id")
     BASE_FIELD_NUMBER: _ClassVar[int]
     REQUEST_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_ID_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     request: _common_pb2.Coordinates
-    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ...) -> None: ...
+    external_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ..., external_id: _Optional[str] = ...) -> None: ...
 
 class RemoteControlReturnToHomeRequest(_message.Message):
     __slots__ = ("base", "request")

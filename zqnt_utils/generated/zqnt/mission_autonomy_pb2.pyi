@@ -216,3 +216,68 @@ class SchedulerResponse(_message.Message):
     scheduler_dto: _common_pb2.SchedulerProtoDTO
     scheduler_dto_list: _common_pb2.SchedulerProtoDTOList
     def __init__(self, has_errors: bool = ..., tid: _Optional[str] = ..., scheduler_id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., empty: _Optional[_Union[_empty_pb2.Empty, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., progress: _Optional[_Union[_common_pb2.CommandProgress, _Mapping]] = ..., scheduler_dto: _Optional[_Union[_common_pb2.SchedulerProtoDTO, _Mapping]] = ..., scheduler_dto_list: _Optional[_Union[_common_pb2.SchedulerProtoDTOList, _Mapping]] = ...) -> None: ...
+
+class EvaluateDetectionRequest(_message.Message):
+    __slots__ = ("base", "detection_id", "asset_sn", "object_type", "confidence", "detection_latitude", "detection_longitude", "detection_altitude", "mission_id", "organization_id")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    DETECTION_ID_FIELD_NUMBER: _ClassVar[int]
+    ASSET_SN_FIELD_NUMBER: _ClassVar[int]
+    OBJECT_TYPE_FIELD_NUMBER: _ClassVar[int]
+    CONFIDENCE_FIELD_NUMBER: _ClassVar[int]
+    DETECTION_LATITUDE_FIELD_NUMBER: _ClassVar[int]
+    DETECTION_LONGITUDE_FIELD_NUMBER: _ClassVar[int]
+    DETECTION_ALTITUDE_FIELD_NUMBER: _ClassVar[int]
+    MISSION_ID_FIELD_NUMBER: _ClassVar[int]
+    ORGANIZATION_ID_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    detection_id: str
+    asset_sn: str
+    object_type: str
+    confidence: float
+    detection_latitude: float
+    detection_longitude: float
+    detection_altitude: float
+    mission_id: str
+    organization_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., detection_id: _Optional[str] = ..., asset_sn: _Optional[str] = ..., object_type: _Optional[str] = ..., confidence: _Optional[float] = ..., detection_latitude: _Optional[float] = ..., detection_longitude: _Optional[float] = ..., detection_altitude: _Optional[float] = ..., mission_id: _Optional[str] = ..., organization_id: _Optional[str] = ...) -> None: ...
+
+class DecisionResultProto(_message.Message):
+    __slots__ = ("decision_id", "detection_id", "selected_asset_sn", "strategy_used", "status", "considered_asset_sns", "rejection_reasons", "decided_at")
+    class RejectionReasonsEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
+    DECISION_ID_FIELD_NUMBER: _ClassVar[int]
+    DETECTION_ID_FIELD_NUMBER: _ClassVar[int]
+    SELECTED_ASSET_SN_FIELD_NUMBER: _ClassVar[int]
+    STRATEGY_USED_FIELD_NUMBER: _ClassVar[int]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
+    CONSIDERED_ASSET_SNS_FIELD_NUMBER: _ClassVar[int]
+    REJECTION_REASONS_FIELD_NUMBER: _ClassVar[int]
+    DECIDED_AT_FIELD_NUMBER: _ClassVar[int]
+    decision_id: str
+    detection_id: str
+    selected_asset_sn: str
+    strategy_used: str
+    status: str
+    considered_asset_sns: _containers.RepeatedScalarFieldContainer[str]
+    rejection_reasons: _containers.ScalarMap[str, str]
+    decided_at: _timestamp_pb2.Timestamp
+    def __init__(self, decision_id: _Optional[str] = ..., detection_id: _Optional[str] = ..., selected_asset_sn: _Optional[str] = ..., strategy_used: _Optional[str] = ..., status: _Optional[str] = ..., considered_asset_sns: _Optional[_Iterable[str]] = ..., rejection_reasons: _Optional[_Mapping[str, str]] = ..., decided_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
+
+class DecisionResponse(_message.Message):
+    __slots__ = ("has_errors", "tid", "timestamp", "error", "decision_result")
+    HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
+    TID_FIELD_NUMBER: _ClassVar[int]
+    TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    DECISION_RESULT_FIELD_NUMBER: _ClassVar[int]
+    has_errors: bool
+    tid: str
+    timestamp: _timestamp_pb2.Timestamp
+    error: _common_pb2.GlobalErrorMessage
+    decision_result: DecisionResultProto
+    def __init__(self, has_errors: bool = ..., tid: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., decision_result: _Optional[_Union[DecisionResultProto, _Mapping]] = ...) -> None: ...

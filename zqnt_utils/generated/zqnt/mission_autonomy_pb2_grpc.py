@@ -132,6 +132,11 @@ class MissionAutonomyServiceStub(object):
                 request_serializer=mission__autonomy__pb2.StopTaskRequest.SerializeToString,
                 response_deserializer=mission__autonomy__pb2.TaskResponse.FromString,
                 _registered_method=True)
+        self.EvaluateDetection = channel.unary_unary(
+                '/MissionAutonomyService/EvaluateDetection',
+                request_serializer=mission__autonomy__pb2.EvaluateDetectionRequest.SerializeToString,
+                response_deserializer=mission__autonomy__pb2.DecisionResponse.FromString,
+                _registered_method=True)
 
 
 class MissionAutonomyServiceServicer(object):
@@ -254,6 +259,13 @@ class MissionAutonomyServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def EvaluateDetection(self, request, context):
+        """Decision Engine - evaluate a detection event and return a tactical decision
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_MissionAutonomyServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -351,6 +363,11 @@ def add_MissionAutonomyServiceServicer_to_server(servicer, server):
                     servicer.StopTask,
                     request_deserializer=mission__autonomy__pb2.StopTaskRequest.FromString,
                     response_serializer=mission__autonomy__pb2.TaskResponse.SerializeToString,
+            ),
+            'EvaluateDetection': grpc.unary_unary_rpc_method_handler(
+                    servicer.EvaluateDetection,
+                    request_deserializer=mission__autonomy__pb2.EvaluateDetectionRequest.FromString,
+                    response_serializer=mission__autonomy__pb2.DecisionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -869,6 +886,33 @@ class MissionAutonomyService(object):
             '/MissionAutonomyService/StopTask',
             mission__autonomy__pb2.StopTaskRequest.SerializeToString,
             mission__autonomy__pb2.TaskResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def EvaluateDetection(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/MissionAutonomyService/EvaluateDetection',
+            mission__autonomy__pb2.EvaluateDetectionRequest.SerializeToString,
+            mission__autonomy__pb2.DecisionResponse.FromString,
             options,
             channel_credentials,
             insecure,

@@ -383,6 +383,23 @@ class TaskTypeProto(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     TASK_TYPE_FOLLOW: _ClassVar[TaskTypeProto]
     TASK_TYPE_TRACK: _ClassVar[TaskTypeProto]
     TASK_TYPE_COUNTER_DRONE: _ClassVar[TaskTypeProto]
+    TASK_TYPE_TAKE_OFF: _ClassVar[TaskTypeProto]
+    TASK_TYPE_GO_TO: _ClassVar[TaskTypeProto]
+    TASK_TYPE_RETURN_TO_HOME: _ClassVar[TaskTypeProto]
+    TASK_TYPE_ENTER_MANUAL_CONTROL: _ClassVar[TaskTypeProto]
+    TASK_TYPE_EXIT_MANUAL_CONTROL: _ClassVar[TaskTypeProto]
+    TASK_TYPE_LOOK_AT: _ClassVar[TaskTypeProto]
+    TASK_TYPE_TAKE_PHOTO: _ClassVar[TaskTypeProto]
+    TASK_TYPE_OPEN_COVER: _ClassVar[TaskTypeProto]
+    TASK_TYPE_CLOSE_COVER: _ClassVar[TaskTypeProto]
+    TASK_TYPE_START_CHARGING: _ClassVar[TaskTypeProto]
+    TASK_TYPE_STOP_CHARGING: _ClassVar[TaskTypeProto]
+    TASK_TYPE_REBOOT_ASSET: _ClassVar[TaskTypeProto]
+    TASK_TYPE_BOOT_SUB_ASSET: _ClassVar[TaskTypeProto]
+    TASK_TYPE_REMOTE_DEBUG: _ClassVar[TaskTypeProto]
+    TASK_TYPE_CHANGE_AC_MODE: _ClassVar[TaskTypeProto]
+    TASK_TYPE_CUSTOM_COMMAND: _ClassVar[TaskTypeProto]
+    TASK_TYPE_EXTERNAL: _ClassVar[TaskTypeProto]
 
 class TaskStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -687,6 +704,23 @@ TASK_TYPE_POI: TaskTypeProto
 TASK_TYPE_FOLLOW: TaskTypeProto
 TASK_TYPE_TRACK: TaskTypeProto
 TASK_TYPE_COUNTER_DRONE: TaskTypeProto
+TASK_TYPE_TAKE_OFF: TaskTypeProto
+TASK_TYPE_GO_TO: TaskTypeProto
+TASK_TYPE_RETURN_TO_HOME: TaskTypeProto
+TASK_TYPE_ENTER_MANUAL_CONTROL: TaskTypeProto
+TASK_TYPE_EXIT_MANUAL_CONTROL: TaskTypeProto
+TASK_TYPE_LOOK_AT: TaskTypeProto
+TASK_TYPE_TAKE_PHOTO: TaskTypeProto
+TASK_TYPE_OPEN_COVER: TaskTypeProto
+TASK_TYPE_CLOSE_COVER: TaskTypeProto
+TASK_TYPE_START_CHARGING: TaskTypeProto
+TASK_TYPE_STOP_CHARGING: TaskTypeProto
+TASK_TYPE_REBOOT_ASSET: TaskTypeProto
+TASK_TYPE_BOOT_SUB_ASSET: TaskTypeProto
+TASK_TYPE_REMOTE_DEBUG: TaskTypeProto
+TASK_TYPE_CHANGE_AC_MODE: TaskTypeProto
+TASK_TYPE_CUSTOM_COMMAND: TaskTypeProto
+TASK_TYPE_EXTERNAL: TaskTypeProto
 TASK_UNKNOWN: TaskStatus
 TASK_DRAFT: TaskStatus
 TASK_SCHEDULED: TaskStatus
@@ -1039,7 +1073,7 @@ class MissionProtoDTO(_message.Message):
     def __init__(self, id: _Optional[str] = ..., name: _Optional[str] = ..., description: _Optional[str] = ..., tasks: _Optional[_Iterable[_Union[TaskProtoDTO, _Mapping]]] = ..., status: _Optional[_Union[MissionStatus, str]] = ..., type: _Optional[_Union[MissionType, str]] = ..., geo_json: _Optional[str] = ..., start_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., end_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., assigned_assets: _Optional[_Iterable[str]] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., modified_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., updated_user: _Optional[str] = ...) -> None: ...
 
 class TaskProtoDTO(_message.Message):
-    __slots__ = ("id", "mission_id", "created_at", "modified_at", "modified_from", "name", "description", "task_type", "config", "status", "asset_id", "sn_number", "current_progress", "current_step", "break_reason", "external_command_type", "waypoint_config", "detect_config", "area_mapping_config", "poi_config", "follow_config", "track_config")
+    __slots__ = ("id", "mission_id", "created_at", "modified_at", "modified_from", "name", "description", "task_type", "config", "status", "asset_id", "sn_number", "current_progress", "current_step", "break_reason", "external_command_type", "external_task_id", "waypoint_config", "detect_config", "area_mapping_config", "poi_config", "follow_config", "track_config")
     ID_FIELD_NUMBER: _ClassVar[int]
     MISSION_ID_FIELD_NUMBER: _ClassVar[int]
     CREATED_AT_FIELD_NUMBER: _ClassVar[int]
@@ -1056,6 +1090,7 @@ class TaskProtoDTO(_message.Message):
     CURRENT_STEP_FIELD_NUMBER: _ClassVar[int]
     BREAK_REASON_FIELD_NUMBER: _ClassVar[int]
     EXTERNAL_COMMAND_TYPE_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_TASK_ID_FIELD_NUMBER: _ClassVar[int]
     WAYPOINT_CONFIG_FIELD_NUMBER: _ClassVar[int]
     DETECT_CONFIG_FIELD_NUMBER: _ClassVar[int]
     AREA_MAPPING_CONFIG_FIELD_NUMBER: _ClassVar[int]
@@ -1078,13 +1113,14 @@ class TaskProtoDTO(_message.Message):
     current_step: str
     break_reason: FlighttaskBreakReasonEnumProto
     external_command_type: str
+    external_task_id: str
     waypoint_config: WaypointTaskConfigProto
     detect_config: DetectTaskConfigProto
     area_mapping_config: AreaMappingTaskConfigProto
     poi_config: PoiTaskConfigProto
     follow_config: FollowTaskConfigProto
     track_config: TrackTaskConfigProto
-    def __init__(self, id: _Optional[str] = ..., mission_id: _Optional[str] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., modified_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., modified_from: _Optional[str] = ..., name: _Optional[str] = ..., description: _Optional[str] = ..., task_type: _Optional[str] = ..., config: _Optional[str] = ..., status: _Optional[_Union[TaskStatus, str]] = ..., asset_id: _Optional[str] = ..., sn_number: _Optional[str] = ..., current_progress: _Optional[int] = ..., current_step: _Optional[str] = ..., break_reason: _Optional[_Union[FlighttaskBreakReasonEnumProto, str]] = ..., external_command_type: _Optional[str] = ..., waypoint_config: _Optional[_Union[WaypointTaskConfigProto, _Mapping]] = ..., detect_config: _Optional[_Union[DetectTaskConfigProto, _Mapping]] = ..., area_mapping_config: _Optional[_Union[AreaMappingTaskConfigProto, _Mapping]] = ..., poi_config: _Optional[_Union[PoiTaskConfigProto, _Mapping]] = ..., follow_config: _Optional[_Union[FollowTaskConfigProto, _Mapping]] = ..., track_config: _Optional[_Union[TrackTaskConfigProto, _Mapping]] = ...) -> None: ...
+    def __init__(self, id: _Optional[str] = ..., mission_id: _Optional[str] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., modified_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., modified_from: _Optional[str] = ..., name: _Optional[str] = ..., description: _Optional[str] = ..., task_type: _Optional[str] = ..., config: _Optional[str] = ..., status: _Optional[_Union[TaskStatus, str]] = ..., asset_id: _Optional[str] = ..., sn_number: _Optional[str] = ..., current_progress: _Optional[int] = ..., current_step: _Optional[str] = ..., break_reason: _Optional[_Union[FlighttaskBreakReasonEnumProto, str]] = ..., external_command_type: _Optional[str] = ..., external_task_id: _Optional[str] = ..., waypoint_config: _Optional[_Union[WaypointTaskConfigProto, _Mapping]] = ..., detect_config: _Optional[_Union[DetectTaskConfigProto, _Mapping]] = ..., area_mapping_config: _Optional[_Union[AreaMappingTaskConfigProto, _Mapping]] = ..., poi_config: _Optional[_Union[PoiTaskConfigProto, _Mapping]] = ..., follow_config: _Optional[_Union[FollowTaskConfigProto, _Mapping]] = ..., track_config: _Optional[_Union[TrackTaskConfigProto, _Mapping]] = ...) -> None: ...
 
 class WaypointProtoDTO(_message.Message):
     __slots__ = ("latitude", "longitude", "altitude", "speed", "fly_trough", "vehicle_action", "wp_order", "gimbal_pitch")
@@ -1137,8 +1173,8 @@ class SchedulerProtoDTOList(_message.Message):
     def __init__(self, scheduler_dto_list: _Optional[_Iterable[_Union[SchedulerProtoDTO, _Mapping]]] = ...) -> None: ...
 
 class WaypointTaskConfigProto(_message.Message):
-    __slots__ = ("flight_id", "waypoints", "fly_to_wayline_mode", "wayline_finish_action", "wayline_type", "wayline_turn_mode", "use_straight_line", "wayline_precision_type", "exit_wayline_when_rc_lost_enum", "rc_lost_action_enum", "out_of_control_action", "take_off_security_height", "rth_altitude", "rth_mode", "rth_speed", "global_speed", "global_transition_speed", "global_height", "gimbal_pitch_mode", "global_gimbal_pitch", "payload_imaging_type", "file_url", "file_md5", "flight_area_file_url", "flight_area_checksum")
-    FLIGHT_ID_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("external_task_id", "waypoints", "fly_to_wayline_mode", "wayline_finish_action", "wayline_type", "wayline_turn_mode", "use_straight_line", "wayline_precision_type", "exit_wayline_when_rc_lost_enum", "rc_lost_action_enum", "out_of_control_action", "take_off_security_height", "rth_altitude", "rth_mode", "rth_speed", "global_speed", "global_transition_speed", "global_height", "gimbal_pitch_mode", "global_gimbal_pitch", "payload_imaging_type", "file_url", "file_md5", "flight_area_file_url", "flight_area_checksum")
+    EXTERNAL_TASK_ID_FIELD_NUMBER: _ClassVar[int]
     WAYPOINTS_FIELD_NUMBER: _ClassVar[int]
     FLY_TO_WAYLINE_MODE_FIELD_NUMBER: _ClassVar[int]
     WAYLINE_FINISH_ACTION_FIELD_NUMBER: _ClassVar[int]
@@ -1163,7 +1199,7 @@ class WaypointTaskConfigProto(_message.Message):
     FILE_MD5_FIELD_NUMBER: _ClassVar[int]
     FLIGHT_AREA_FILE_URL_FIELD_NUMBER: _ClassVar[int]
     FLIGHT_AREA_CHECKSUM_FIELD_NUMBER: _ClassVar[int]
-    flight_id: str
+    external_task_id: str
     waypoints: _containers.RepeatedCompositeFieldContainer[WaypointProtoDTO]
     fly_to_wayline_mode: FlyToWaylineModeProto
     wayline_finish_action: WaylineFinishActionProto
@@ -1188,7 +1224,7 @@ class WaypointTaskConfigProto(_message.Message):
     file_md5: str
     flight_area_file_url: str
     flight_area_checksum: str
-    def __init__(self, flight_id: _Optional[str] = ..., waypoints: _Optional[_Iterable[_Union[WaypointProtoDTO, _Mapping]]] = ..., fly_to_wayline_mode: _Optional[_Union[FlyToWaylineModeProto, str]] = ..., wayline_finish_action: _Optional[_Union[WaylineFinishActionProto, str]] = ..., wayline_type: _Optional[_Union[WaylineTypeEnumProto, str]] = ..., wayline_turn_mode: _Optional[_Union[WaylineTurnModeProto, str]] = ..., use_straight_line: bool = ..., wayline_precision_type: _Optional[_Union[WaylinePrecisionTypeEnumProto, str]] = ..., exit_wayline_when_rc_lost_enum: _Optional[_Union[ExitWaylineWhenRcLostEnumProto, str]] = ..., rc_lost_action_enum: _Optional[_Union[RcLostActionEnumProto, str]] = ..., out_of_control_action: _Optional[_Union[OutOfControlActionEnumProto, str]] = ..., take_off_security_height: _Optional[float] = ..., rth_altitude: _Optional[int] = ..., rth_mode: _Optional[_Union[RthModeEnumProto, str]] = ..., rth_speed: _Optional[float] = ..., global_speed: _Optional[float] = ..., global_transition_speed: _Optional[float] = ..., global_height: _Optional[float] = ..., gimbal_pitch_mode: _Optional[_Union[WaylineGimbalPitchModeProto, str]] = ..., global_gimbal_pitch: _Optional[int] = ..., payload_imaging_type: _Optional[str] = ..., file_url: _Optional[str] = ..., file_md5: _Optional[str] = ..., flight_area_file_url: _Optional[str] = ..., flight_area_checksum: _Optional[str] = ...) -> None: ...
+    def __init__(self, external_task_id: _Optional[str] = ..., waypoints: _Optional[_Iterable[_Union[WaypointProtoDTO, _Mapping]]] = ..., fly_to_wayline_mode: _Optional[_Union[FlyToWaylineModeProto, str]] = ..., wayline_finish_action: _Optional[_Union[WaylineFinishActionProto, str]] = ..., wayline_type: _Optional[_Union[WaylineTypeEnumProto, str]] = ..., wayline_turn_mode: _Optional[_Union[WaylineTurnModeProto, str]] = ..., use_straight_line: bool = ..., wayline_precision_type: _Optional[_Union[WaylinePrecisionTypeEnumProto, str]] = ..., exit_wayline_when_rc_lost_enum: _Optional[_Union[ExitWaylineWhenRcLostEnumProto, str]] = ..., rc_lost_action_enum: _Optional[_Union[RcLostActionEnumProto, str]] = ..., out_of_control_action: _Optional[_Union[OutOfControlActionEnumProto, str]] = ..., take_off_security_height: _Optional[float] = ..., rth_altitude: _Optional[int] = ..., rth_mode: _Optional[_Union[RthModeEnumProto, str]] = ..., rth_speed: _Optional[float] = ..., global_speed: _Optional[float] = ..., global_transition_speed: _Optional[float] = ..., global_height: _Optional[float] = ..., gimbal_pitch_mode: _Optional[_Union[WaylineGimbalPitchModeProto, str]] = ..., global_gimbal_pitch: _Optional[int] = ..., payload_imaging_type: _Optional[str] = ..., file_url: _Optional[str] = ..., file_md5: _Optional[str] = ..., flight_area_file_url: _Optional[str] = ..., flight_area_checksum: _Optional[str] = ...) -> None: ...
 
 class DetectTaskConfigProto(_message.Message):
     __slots__ = ("detection_targets", "detection_mode", "area_latitude", "area_longitude", "area_radius", "detection_altitude", "scan_pattern", "scan_speed", "thermal_detection", "visual_detection", "min_confidence", "max_detections", "auto_capture_on_detection", "investigate_detections", "investigation_distance", "investigation_duration", "gimbal_pitch", "enable_zoom", "zoom_level", "max_duration", "on_max_detections_action", "realtime_alerts", "ai_model_id", "detection_parameters")

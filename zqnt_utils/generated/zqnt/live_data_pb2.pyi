@@ -406,18 +406,20 @@ class AssetStatusEvent(_message.Message):
     def __init__(self, sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., online: bool = ...) -> None: ...
 
 class TaskEvent(_message.Message):
-    __slots__ = ("task_id", "task_type", "status", "progress", "message")
+    __slots__ = ("task_id", "task_type", "status", "progress", "message", "external_task_type")
     TASK_ID_FIELD_NUMBER: _ClassVar[int]
     TASK_TYPE_FIELD_NUMBER: _ClassVar[int]
     STATUS_FIELD_NUMBER: _ClassVar[int]
     PROGRESS_FIELD_NUMBER: _ClassVar[int]
     MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_TASK_TYPE_FIELD_NUMBER: _ClassVar[int]
     task_id: str
     task_type: _common_pb2.TaskTypeProto
     status: _common_pb2.TaskStatus
     progress: float
     message: str
-    def __init__(self, task_id: _Optional[str] = ..., task_type: _Optional[_Union[_common_pb2.TaskTypeProto, str]] = ..., status: _Optional[_Union[_common_pb2.TaskStatus, str]] = ..., progress: _Optional[float] = ..., message: _Optional[str] = ...) -> None: ...
+    external_task_type: str
+    def __init__(self, task_id: _Optional[str] = ..., task_type: _Optional[_Union[_common_pb2.TaskTypeProto, str]] = ..., status: _Optional[_Union[_common_pb2.TaskStatus, str]] = ..., progress: _Optional[float] = ..., message: _Optional[str] = ..., external_task_type: _Optional[str] = ...) -> None: ...
 
 class OperationEvent(_message.Message):
     __slots__ = ("operation_id", "mission_type", "status", "message")

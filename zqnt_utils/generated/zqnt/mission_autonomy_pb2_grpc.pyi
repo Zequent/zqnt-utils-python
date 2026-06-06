@@ -55,6 +55,8 @@ class MissionAutonomyServiceStub:
     DeleteSchedulersByTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.DeleteSchedulersByTaskRequest, _mission_autonomy_pb2.SchedulerResponse]
     StartTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StartTaskRequest, _mission_autonomy_pb2.TaskResponse]
     StopTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StopTaskRequest, _mission_autonomy_pb2.TaskResponse]
+    EvaluateDetection: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.EvaluateDetectionRequest, _mission_autonomy_pb2.DecisionResponse]
+    """Decision Engine - evaluate a detection event and return a tactical decision"""
 
 @_typing.type_check_only
 class MissionAutonomyServiceAsyncStub(MissionAutonomyServiceStub):
@@ -83,6 +85,8 @@ class MissionAutonomyServiceAsyncStub(MissionAutonomyServiceStub):
     DeleteSchedulersByTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.DeleteSchedulersByTaskRequest, _mission_autonomy_pb2.SchedulerResponse]  # type: ignore[assignment]
     StartTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StartTaskRequest, _mission_autonomy_pb2.TaskResponse]  # type: ignore[assignment]
     StopTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StopTaskRequest, _mission_autonomy_pb2.TaskResponse]  # type: ignore[assignment]
+    EvaluateDetection: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.EvaluateDetectionRequest, _mission_autonomy_pb2.DecisionResponse]  # type: ignore[assignment]
+    """Decision Engine - evaluate a detection event and return a tactical decision"""
 
 class MissionAutonomyServiceServicer(metaclass=_abc_1.ABCMeta):
     """MissionAutonomyService provides RPC endpoints for mission and task management,
@@ -222,5 +226,13 @@ class MissionAutonomyServiceServicer(metaclass=_abc_1.ABCMeta):
         request: _mission_autonomy_pb2.StopTaskRequest,
         context: _ServicerContext,
     ) -> _typing.Union[_mission_autonomy_pb2.TaskResponse, _abc.Awaitable[_mission_autonomy_pb2.TaskResponse]]: ...
+
+    @_abc_1.abstractmethod
+    def EvaluateDetection(
+        self,
+        request: _mission_autonomy_pb2.EvaluateDetectionRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_mission_autonomy_pb2.DecisionResponse, _abc.Awaitable[_mission_autonomy_pb2.DecisionResponse]]:
+        """Decision Engine - evaluate a detection event and return a tactical decision"""
 
 def add_MissionAutonomyServiceServicer_to_server(servicer: MissionAutonomyServiceServicer, server: _typing.Union[_grpc.Server, _aio.Server]) -> None: ...

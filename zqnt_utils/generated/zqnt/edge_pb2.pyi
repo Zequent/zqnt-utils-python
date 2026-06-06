@@ -37,7 +37,7 @@ class EdgeStopTaskRequest(_message.Message):
     def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., task_id: _Optional[str] = ...) -> None: ...
 
 class EdgeResponse(_message.Message):
-    __slots__ = ("has_errors", "tid", "sn", "asset_id", "response_message", "timestamp", "empty", "error", "progress", "live_stream_start_response")
+    __slots__ = ("has_errors", "tid", "sn", "asset_id", "response_message", "timestamp", "empty", "error", "progress", "live_stream_start_response", "external_id")
     HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
     TID_FIELD_NUMBER: _ClassVar[int]
     SN_FIELD_NUMBER: _ClassVar[int]
@@ -48,6 +48,7 @@ class EdgeResponse(_message.Message):
     ERROR_FIELD_NUMBER: _ClassVar[int]
     PROGRESS_FIELD_NUMBER: _ClassVar[int]
     LIVE_STREAM_START_RESPONSE_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_ID_FIELD_NUMBER: _ClassVar[int]
     has_errors: bool
     tid: str
     sn: str
@@ -58,23 +59,28 @@ class EdgeResponse(_message.Message):
     error: _common_pb2.GlobalErrorMessage
     progress: _common_pb2.CommandProgress
     live_stream_start_response: _common_pb2.LiveStreamStartResponse
-    def __init__(self, has_errors: bool = ..., tid: _Optional[str] = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., response_message: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., empty: _Optional[_Union[_empty_pb2.Empty, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., progress: _Optional[_Union[_common_pb2.CommandProgress, _Mapping]] = ..., live_stream_start_response: _Optional[_Union[_common_pb2.LiveStreamStartResponse, _Mapping]] = ...) -> None: ...
+    external_id: str
+    def __init__(self, has_errors: bool = ..., tid: _Optional[str] = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., response_message: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., empty: _Optional[_Union[_empty_pb2.Empty, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., progress: _Optional[_Union[_common_pb2.CommandProgress, _Mapping]] = ..., live_stream_start_response: _Optional[_Union[_common_pb2.LiveStreamStartResponse, _Mapping]] = ..., external_id: _Optional[str] = ...) -> None: ...
 
 class EdgeTakeOffRequest(_message.Message):
-    __slots__ = ("base", "request")
+    __slots__ = ("base", "request", "external_id")
     BASE_FIELD_NUMBER: _ClassVar[int]
     REQUEST_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_ID_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     request: _common_pb2.Coordinates
-    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ...) -> None: ...
+    external_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ..., external_id: _Optional[str] = ...) -> None: ...
 
 class EdgeGoToRequest(_message.Message):
-    __slots__ = ("base", "request")
+    __slots__ = ("base", "request", "external_id")
     BASE_FIELD_NUMBER: _ClassVar[int]
     REQUEST_FIELD_NUMBER: _ClassVar[int]
+    EXTERNAL_ID_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     request: _common_pb2.Coordinates
-    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ...) -> None: ...
+    external_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., request: _Optional[_Union[_common_pb2.Coordinates, _Mapping]] = ..., external_id: _Optional[str] = ...) -> None: ...
 
 class EdgeReturnToHomeRequest(_message.Message):
     __slots__ = ("base", "request")

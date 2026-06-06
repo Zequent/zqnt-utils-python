@@ -330,7 +330,7 @@ class ConnectorStoreDetectionRequest(_message.Message):
     def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., asset_sn: _Optional[str] = ..., sub_asset_sn: _Optional[str] = ..., task_id: _Optional[str] = ..., object_id: _Optional[str] = ..., object_type: _Optional[str] = ..., confidence: _Optional[float] = ..., bounding_box_x: _Optional[float] = ..., bounding_box_y: _Optional[float] = ..., bounding_box_width: _Optional[float] = ..., bounding_box_height: _Optional[float] = ..., stream_url: _Optional[str] = ..., detected_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
 
 class ConnectorStoreNotificationRequest(_message.Message):
-    __slots__ = ("base", "event_type", "asset_sn", "asset_id", "title", "message", "task_id", "operation_id")
+    __slots__ = ("base", "event_type", "asset_sn", "asset_id", "title", "message", "task_id", "operation_id", "progress", "task_type")
     BASE_FIELD_NUMBER: _ClassVar[int]
     EVENT_TYPE_FIELD_NUMBER: _ClassVar[int]
     ASSET_SN_FIELD_NUMBER: _ClassVar[int]
@@ -339,6 +339,8 @@ class ConnectorStoreNotificationRequest(_message.Message):
     MESSAGE_FIELD_NUMBER: _ClassVar[int]
     TASK_ID_FIELD_NUMBER: _ClassVar[int]
     OPERATION_ID_FIELD_NUMBER: _ClassVar[int]
+    PROGRESS_FIELD_NUMBER: _ClassVar[int]
+    TASK_TYPE_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     event_type: str
     asset_sn: str
@@ -347,7 +349,9 @@ class ConnectorStoreNotificationRequest(_message.Message):
     message: str
     task_id: str
     operation_id: str
-    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., event_type: _Optional[str] = ..., asset_sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., title: _Optional[str] = ..., message: _Optional[str] = ..., task_id: _Optional[str] = ..., operation_id: _Optional[str] = ...) -> None: ...
+    progress: float
+    task_type: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., event_type: _Optional[str] = ..., asset_sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., title: _Optional[str] = ..., message: _Optional[str] = ..., task_id: _Optional[str] = ..., operation_id: _Optional[str] = ..., progress: _Optional[float] = ..., task_type: _Optional[str] = ...) -> None: ...
 
 class AssetTelemetryProto(_message.Message):
     __slots__ = ("asset_id", "timestamp", "latitude", "longitude", "altitude", "relative_altitude", "heading", "temperature", "humidity", "wind_speed", "battery_percentage", "network_type", "network_quality", "operational_mode", "is_online", "source_system", "telemetry_data")
@@ -434,3 +438,115 @@ class SubAssetTelemetryProto(_message.Message):
     source_system: str
     telemetry_data: _containers.ScalarMap[str, str]
     def __init__(self, asset_id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., latitude: _Optional[float] = ..., longitude: _Optional[float] = ..., altitude: _Optional[float] = ..., relative_altitude: _Optional[float] = ..., heading: _Optional[float] = ..., horizontal_speed: _Optional[float] = ..., vertical_speed: _Optional[float] = ..., wind_speed: _Optional[float] = ..., battery_percentage: _Optional[float] = ..., operational_mode: _Optional[str] = ..., is_online: bool = ..., source_system: _Optional[str] = ..., telemetry_data: _Optional[_Mapping[str, str]] = ...) -> None: ...
+
+class PolicyProtoDTO(_message.Message):
+    __slots__ = ("id", "name", "description", "policy_type", "scope", "scope_target", "priority", "active", "strategy_type", "conditions", "constraints", "actions")
+    ID_FIELD_NUMBER: _ClassVar[int]
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    DESCRIPTION_FIELD_NUMBER: _ClassVar[int]
+    POLICY_TYPE_FIELD_NUMBER: _ClassVar[int]
+    SCOPE_FIELD_NUMBER: _ClassVar[int]
+    SCOPE_TARGET_FIELD_NUMBER: _ClassVar[int]
+    PRIORITY_FIELD_NUMBER: _ClassVar[int]
+    ACTIVE_FIELD_NUMBER: _ClassVar[int]
+    STRATEGY_TYPE_FIELD_NUMBER: _ClassVar[int]
+    CONDITIONS_FIELD_NUMBER: _ClassVar[int]
+    CONSTRAINTS_FIELD_NUMBER: _ClassVar[int]
+    ACTIONS_FIELD_NUMBER: _ClassVar[int]
+    id: str
+    name: str
+    description: str
+    policy_type: str
+    scope: str
+    scope_target: str
+    priority: int
+    active: bool
+    strategy_type: str
+    conditions: str
+    constraints: str
+    actions: str
+    def __init__(self, id: _Optional[str] = ..., name: _Optional[str] = ..., description: _Optional[str] = ..., policy_type: _Optional[str] = ..., scope: _Optional[str] = ..., scope_target: _Optional[str] = ..., priority: _Optional[int] = ..., active: bool = ..., strategy_type: _Optional[str] = ..., conditions: _Optional[str] = ..., constraints: _Optional[str] = ..., actions: _Optional[str] = ...) -> None: ...
+
+class PolicyProtoDTOList(_message.Message):
+    __slots__ = ("policies",)
+    POLICIES_FIELD_NUMBER: _ClassVar[int]
+    policies: _containers.RepeatedCompositeFieldContainer[PolicyProtoDTO]
+    def __init__(self, policies: _Optional[_Iterable[_Union[PolicyProtoDTO, _Mapping]]] = ...) -> None: ...
+
+class ConnectorGetPoliciesRequest(_message.Message):
+    __slots__ = ("base", "policy_type")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    POLICY_TYPE_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    policy_type: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., policy_type: _Optional[str] = ...) -> None: ...
+
+class ConnectorGetAllPoliciesRequest(_message.Message):
+    __slots__ = ("base",)
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ...) -> None: ...
+
+class ConnectorPolicyResponse(_message.Message):
+    __slots__ = ("tid", "has_errors", "timestamp", "error", "policy_list")
+    TID_FIELD_NUMBER: _ClassVar[int]
+    HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
+    TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    POLICY_LIST_FIELD_NUMBER: _ClassVar[int]
+    tid: str
+    has_errors: bool
+    timestamp: _timestamp_pb2.Timestamp
+    error: _common_pb2.GlobalErrorMessage
+    policy_list: PolicyProtoDTOList
+    def __init__(self, tid: _Optional[str] = ..., has_errors: bool = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., policy_list: _Optional[_Union[PolicyProtoDTOList, _Mapping]] = ...) -> None: ...
+
+class TechnicalConfigProtoDTO(_message.Message):
+    __slots__ = ("id", "config_key", "config_value", "value_type", "scope", "scope_target", "active", "description")
+    ID_FIELD_NUMBER: _ClassVar[int]
+    CONFIG_KEY_FIELD_NUMBER: _ClassVar[int]
+    CONFIG_VALUE_FIELD_NUMBER: _ClassVar[int]
+    VALUE_TYPE_FIELD_NUMBER: _ClassVar[int]
+    SCOPE_FIELD_NUMBER: _ClassVar[int]
+    SCOPE_TARGET_FIELD_NUMBER: _ClassVar[int]
+    ACTIVE_FIELD_NUMBER: _ClassVar[int]
+    DESCRIPTION_FIELD_NUMBER: _ClassVar[int]
+    id: str
+    config_key: str
+    config_value: str
+    value_type: str
+    scope: str
+    scope_target: str
+    active: bool
+    description: str
+    def __init__(self, id: _Optional[str] = ..., config_key: _Optional[str] = ..., config_value: _Optional[str] = ..., value_type: _Optional[str] = ..., scope: _Optional[str] = ..., scope_target: _Optional[str] = ..., active: bool = ..., description: _Optional[str] = ...) -> None: ...
+
+class TechnicalConfigProtoDTOList(_message.Message):
+    __slots__ = ("configs",)
+    CONFIGS_FIELD_NUMBER: _ClassVar[int]
+    configs: _containers.RepeatedCompositeFieldContainer[TechnicalConfigProtoDTO]
+    def __init__(self, configs: _Optional[_Iterable[_Union[TechnicalConfigProtoDTO, _Mapping]]] = ...) -> None: ...
+
+class ConnectorGetConfigsRequest(_message.Message):
+    __slots__ = ("base", "scope", "scope_target")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    SCOPE_FIELD_NUMBER: _ClassVar[int]
+    SCOPE_TARGET_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    scope: str
+    scope_target: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., scope: _Optional[str] = ..., scope_target: _Optional[str] = ...) -> None: ...
+
+class ConnectorConfigResponse(_message.Message):
+    __slots__ = ("tid", "has_errors", "timestamp", "error", "config_list")
+    TID_FIELD_NUMBER: _ClassVar[int]
+    HAS_ERRORS_FIELD_NUMBER: _ClassVar[int]
+    TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    CONFIG_LIST_FIELD_NUMBER: _ClassVar[int]
+    tid: str
+    has_errors: bool
+    timestamp: _timestamp_pb2.Timestamp
+    error: _common_pb2.GlobalErrorMessage
+    config_list: TechnicalConfigProtoDTOList
+    def __init__(self, tid: _Optional[str] = ..., has_errors: bool = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., config_list: _Optional[_Union[TechnicalConfigProtoDTOList, _Mapping]] = ...) -> None: ...
