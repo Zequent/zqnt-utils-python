@@ -6,7 +6,6 @@ Output: zqnt_utils/generated/zqnt/
 Usage:  python scripts/gen_protos.py
 """
 
-import os
 import sys
 from pathlib import Path
 
