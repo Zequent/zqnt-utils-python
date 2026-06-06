@@ -20,4 +20,10 @@ try:
 except PackageNotFoundError:
     __version__ = "1.0.0"
 
-__all__ = ["__version__", "CacheKeys", "CachingService", "EdgeEndpointDTO", "setup_logging"]
+__all__ = [
+    "__version__",
+    "CacheKeys",
+    "CachingService",
+    "EdgeEndpointDTO",
+    "setup_logging",
+]
