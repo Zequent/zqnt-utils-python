@@ -58,7 +58,7 @@ def parse_enum(enum_cls: type[_T], value: int | str, default: _T) -> _T:
     for prefix in _PROTO_PREFIXES:
         if s.startswith(prefix):
             try:
-                return enum_cls[s[len(prefix):]]
+                return enum_cls[s[len(prefix) :]]
             except KeyError:
                 break
     return default

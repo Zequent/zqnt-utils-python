@@ -30,9 +30,7 @@ def ensure_init_files(directory: Path) -> None:
 
 def run() -> None:
     if not PROTO_DIR.exists():
-        sys.exit(
-            "zqnt-protos submodule not found – run: git submodule update --init"
-        )
+        sys.exit("zqnt-protos submodule not found – run: git submodule update --init")
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ensure_init_files(OUT_DIR)
