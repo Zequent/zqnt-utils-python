@@ -1,62 +1,32 @@
-name: Main – Lint, Test, Build & Release
+name: Main
 
 on:
   push:
     branches: [main]
 
 permissions:
-  contents: write   # needed to create GitHub Releases
+  contents: read
 
 jobs:
   ci:
-    name: Lint · Test · Build · Release
+    name: Lint · Format · Build
     runs-on: ubuntu-latest
-
     steps:
-      # ── Checkout ──────────────────────────────────────────────────────────
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # ── Python ────────────────────────────────────────────────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      # ── uv ────────────────────────────────────────────────────────────────
       - name: Install uv
         uses: astral-sh/setup-uv@v2
 
-      # ── Dependencies ───────────────────────────────────────────────────────
       - name: Install dependencies
         run: uv sync
 
-      # ── Lint ───────────────────────────────────────────────────────────────
       - name: Lint (ruff)
         run: uv run ruff check .
 
-      # ── Format Check ───────────────────────────────────────────────────────
       - name: Format check (ruff)
         run: uv run ruff format --check .
-
-      # ── Version: read from pyproject.toml ─────────────────────────────────
-      - name: Read version
-        id: version
-        run: |
-          VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "//' | sed 's/".*//')
-          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "Version: ${VERSION}"
-
-      # ── Build wheel + sdist ────────────────────────────────────────────────
-      - name: Build package
-        run: uv build
-
-      # ── Create GitHub Release (stable, not pre-release) ───────────────────
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.version.outputs.version }}
-          name: v${{ steps.version.outputs.version }}
-          prerelease: false
-          generate_release_notes: true
-          files: dist/*
