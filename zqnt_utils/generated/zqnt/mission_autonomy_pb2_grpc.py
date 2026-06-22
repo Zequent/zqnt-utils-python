@@ -132,6 +132,16 @@ class MissionAutonomyServiceStub(object):
                 request_serializer=mission__autonomy__pb2.StopTaskRequest.SerializeToString,
                 response_deserializer=mission__autonomy__pb2.TaskResponse.FromString,
                 _registered_method=True)
+        self.PauseTask = channel.unary_unary(
+                '/MissionAutonomyService/PauseTask',
+                request_serializer=mission__autonomy__pb2.PauseTaskRequest.SerializeToString,
+                response_deserializer=mission__autonomy__pb2.TaskResponse.FromString,
+                _registered_method=True)
+        self.ResumeTask = channel.unary_unary(
+                '/MissionAutonomyService/ResumeTask',
+                request_serializer=mission__autonomy__pb2.ResumeTaskRequest.SerializeToString,
+                response_deserializer=mission__autonomy__pb2.TaskResponse.FromString,
+                _registered_method=True)
         self.EvaluateDetection = channel.unary_unary(
                 '/MissionAutonomyService/EvaluateDetection',
                 request_serializer=mission__autonomy__pb2.EvaluateDetectionRequest.SerializeToString,
@@ -259,6 +269,18 @@ class MissionAutonomyServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def PauseTask(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ResumeTask(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def EvaluateDetection(self, request, context):
         """Decision Engine - evaluate a detection event and return a tactical decision
         """
@@ -362,6 +384,16 @@ def add_MissionAutonomyServiceServicer_to_server(servicer, server):
             'StopTask': grpc.unary_unary_rpc_method_handler(
                     servicer.StopTask,
                     request_deserializer=mission__autonomy__pb2.StopTaskRequest.FromString,
+                    response_serializer=mission__autonomy__pb2.TaskResponse.SerializeToString,
+            ),
+            'PauseTask': grpc.unary_unary_rpc_method_handler(
+                    servicer.PauseTask,
+                    request_deserializer=mission__autonomy__pb2.PauseTaskRequest.FromString,
+                    response_serializer=mission__autonomy__pb2.TaskResponse.SerializeToString,
+            ),
+            'ResumeTask': grpc.unary_unary_rpc_method_handler(
+                    servicer.ResumeTask,
+                    request_deserializer=mission__autonomy__pb2.ResumeTaskRequest.FromString,
                     response_serializer=mission__autonomy__pb2.TaskResponse.SerializeToString,
             ),
             'EvaluateDetection': grpc.unary_unary_rpc_method_handler(
@@ -885,6 +917,60 @@ class MissionAutonomyService(object):
             target,
             '/MissionAutonomyService/StopTask',
             mission__autonomy__pb2.StopTaskRequest.SerializeToString,
+            mission__autonomy__pb2.TaskResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def PauseTask(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/MissionAutonomyService/PauseTask',
+            mission__autonomy__pb2.PauseTaskRequest.SerializeToString,
+            mission__autonomy__pb2.TaskResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ResumeTask(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/MissionAutonomyService/ResumeTask',
+            mission__autonomy__pb2.ResumeTaskRequest.SerializeToString,
             mission__autonomy__pb2.TaskResponse.FromString,
             options,
             channel_credentials,

@@ -76,6 +76,8 @@ class EdgeAdapterServiceStub:
     StopRecording: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgeStopRecordingRequest, _edge_pb2.EdgeResponse]
     StartTask: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgeStartTaskRequest, _edge_pb2.EdgeResponse]
     StopTask: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgeStopTaskRequest, _edge_pb2.EdgeResponse]
+    PauseTask: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgePauseTaskRequest, _edge_pb2.EdgeResponse]
+    ResumeTask: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgeResumeTaskRequest, _edge_pb2.EdgeResponse]
     PrepareTask: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgePrepareTaskRequest, _edge_pb2.EdgeResponse]
     SendCustomCommand: _grpc.UnaryUnaryMultiCallable[_edge_pb2.EdgeCustomCommandRequest, _edge_pb2.EdgeCustomCommandResponse]
     """Custom / Integrator-defined commands"""
@@ -128,6 +130,8 @@ class EdgeAdapterServiceAsyncStub(EdgeAdapterServiceStub):
     StopRecording: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgeStopRecordingRequest, _edge_pb2.EdgeResponse]  # type: ignore[assignment]
     StartTask: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgeStartTaskRequest, _edge_pb2.EdgeResponse]  # type: ignore[assignment]
     StopTask: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgeStopTaskRequest, _edge_pb2.EdgeResponse]  # type: ignore[assignment]
+    PauseTask: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgePauseTaskRequest, _edge_pb2.EdgeResponse]  # type: ignore[assignment]
+    ResumeTask: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgeResumeTaskRequest, _edge_pb2.EdgeResponse]  # type: ignore[assignment]
     PrepareTask: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgePrepareTaskRequest, _edge_pb2.EdgeResponse]  # type: ignore[assignment]
     SendCustomCommand: _aio.UnaryUnaryMultiCallable[_edge_pb2.EdgeCustomCommandRequest, _edge_pb2.EdgeCustomCommandResponse]  # type: ignore[assignment]
     """Custom / Integrator-defined commands"""
@@ -361,6 +365,20 @@ class EdgeAdapterServiceServicer(metaclass=_abc_1.ABCMeta):
     def StopTask(
         self,
         request: _edge_pb2.EdgeStopTaskRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_edge_pb2.EdgeResponse, _abc.Awaitable[_edge_pb2.EdgeResponse]]: ...
+
+    @_abc_1.abstractmethod
+    def PauseTask(
+        self,
+        request: _edge_pb2.EdgePauseTaskRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_edge_pb2.EdgeResponse, _abc.Awaitable[_edge_pb2.EdgeResponse]]: ...
+
+    @_abc_1.abstractmethod
+    def ResumeTask(
+        self,
+        request: _edge_pb2.EdgeResumeTaskRequest,
         context: _ServicerContext,
     ) -> _typing.Union[_edge_pb2.EdgeResponse, _abc.Awaitable[_edge_pb2.EdgeResponse]]: ...
 

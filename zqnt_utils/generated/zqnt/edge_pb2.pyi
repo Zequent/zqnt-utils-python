@@ -12,6 +12,22 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class EdgePauseTaskRequest(_message.Message):
+    __slots__ = ("base", "task_id")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    TASK_ID_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    task_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., task_id: _Optional[str] = ...) -> None: ...
+
+class EdgeResumeTaskRequest(_message.Message):
+    __slots__ = ("base", "task_id")
+    BASE_FIELD_NUMBER: _ClassVar[int]
+    TASK_ID_FIELD_NUMBER: _ClassVar[int]
+    base: _common_pb2.RequestBase
+    task_id: str
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., task_id: _Optional[str] = ...) -> None: ...
+
 class EdgePrepareTaskRequest(_message.Message):
     __slots__ = ("base", "task_id")
     BASE_FIELD_NUMBER: _ClassVar[int]

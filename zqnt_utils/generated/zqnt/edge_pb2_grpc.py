@@ -192,6 +192,16 @@ class EdgeAdapterServiceStub(object):
                 request_serializer=edge__pb2.EdgeStopTaskRequest.SerializeToString,
                 response_deserializer=edge__pb2.EdgeResponse.FromString,
                 _registered_method=True)
+        self.PauseTask = channel.unary_unary(
+                '/EdgeAdapterService/PauseTask',
+                request_serializer=edge__pb2.EdgePauseTaskRequest.SerializeToString,
+                response_deserializer=edge__pb2.EdgeResponse.FromString,
+                _registered_method=True)
+        self.ResumeTask = channel.unary_unary(
+                '/EdgeAdapterService/ResumeTask',
+                request_serializer=edge__pb2.EdgeResumeTaskRequest.SerializeToString,
+                response_deserializer=edge__pb2.EdgeResponse.FromString,
+                _registered_method=True)
         self.PrepareTask = channel.unary_unary(
                 '/EdgeAdapterService/PrepareTask',
                 request_serializer=edge__pb2.EdgePrepareTaskRequest.SerializeToString,
@@ -405,6 +415,18 @@ class EdgeAdapterServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def PauseTask(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ResumeTask(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def PrepareTask(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -574,6 +596,16 @@ def add_EdgeAdapterServiceServicer_to_server(servicer, server):
             'StopTask': grpc.unary_unary_rpc_method_handler(
                     servicer.StopTask,
                     request_deserializer=edge__pb2.EdgeStopTaskRequest.FromString,
+                    response_serializer=edge__pb2.EdgeResponse.SerializeToString,
+            ),
+            'PauseTask': grpc.unary_unary_rpc_method_handler(
+                    servicer.PauseTask,
+                    request_deserializer=edge__pb2.EdgePauseTaskRequest.FromString,
+                    response_serializer=edge__pb2.EdgeResponse.SerializeToString,
+            ),
+            'ResumeTask': grpc.unary_unary_rpc_method_handler(
+                    servicer.ResumeTask,
+                    request_deserializer=edge__pb2.EdgeResumeTaskRequest.FromString,
                     response_serializer=edge__pb2.EdgeResponse.SerializeToString,
             ),
             'PrepareTask': grpc.unary_unary_rpc_method_handler(
@@ -1426,6 +1458,60 @@ class EdgeAdapterService(object):
             target,
             '/EdgeAdapterService/StopTask',
             edge__pb2.EdgeStopTaskRequest.SerializeToString,
+            edge__pb2.EdgeResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def PauseTask(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/EdgeAdapterService/PauseTask',
+            edge__pb2.EdgePauseTaskRequest.SerializeToString,
+            edge__pb2.EdgeResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ResumeTask(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/EdgeAdapterService/ResumeTask',
+            edge__pb2.EdgeResumeTaskRequest.SerializeToString,
             edge__pb2.EdgeResponse.FromString,
             options,
             channel_credentials,

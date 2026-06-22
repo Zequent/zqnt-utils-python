@@ -55,6 +55,8 @@ class MissionAutonomyServiceStub:
     DeleteSchedulersByTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.DeleteSchedulersByTaskRequest, _mission_autonomy_pb2.SchedulerResponse]
     StartTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StartTaskRequest, _mission_autonomy_pb2.TaskResponse]
     StopTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StopTaskRequest, _mission_autonomy_pb2.TaskResponse]
+    PauseTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.PauseTaskRequest, _mission_autonomy_pb2.TaskResponse]
+    ResumeTask: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.ResumeTaskRequest, _mission_autonomy_pb2.TaskResponse]
     EvaluateDetection: _grpc.UnaryUnaryMultiCallable[_mission_autonomy_pb2.EvaluateDetectionRequest, _mission_autonomy_pb2.DecisionResponse]
     """Decision Engine - evaluate a detection event and return a tactical decision"""
 
@@ -85,6 +87,8 @@ class MissionAutonomyServiceAsyncStub(MissionAutonomyServiceStub):
     DeleteSchedulersByTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.DeleteSchedulersByTaskRequest, _mission_autonomy_pb2.SchedulerResponse]  # type: ignore[assignment]
     StartTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StartTaskRequest, _mission_autonomy_pb2.TaskResponse]  # type: ignore[assignment]
     StopTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.StopTaskRequest, _mission_autonomy_pb2.TaskResponse]  # type: ignore[assignment]
+    PauseTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.PauseTaskRequest, _mission_autonomy_pb2.TaskResponse]  # type: ignore[assignment]
+    ResumeTask: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.ResumeTaskRequest, _mission_autonomy_pb2.TaskResponse]  # type: ignore[assignment]
     EvaluateDetection: _aio.UnaryUnaryMultiCallable[_mission_autonomy_pb2.EvaluateDetectionRequest, _mission_autonomy_pb2.DecisionResponse]  # type: ignore[assignment]
     """Decision Engine - evaluate a detection event and return a tactical decision"""
 
@@ -224,6 +228,20 @@ class MissionAutonomyServiceServicer(metaclass=_abc_1.ABCMeta):
     def StopTask(
         self,
         request: _mission_autonomy_pb2.StopTaskRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_mission_autonomy_pb2.TaskResponse, _abc.Awaitable[_mission_autonomy_pb2.TaskResponse]]: ...
+
+    @_abc_1.abstractmethod
+    def PauseTask(
+        self,
+        request: _mission_autonomy_pb2.PauseTaskRequest,
+        context: _ServicerContext,
+    ) -> _typing.Union[_mission_autonomy_pb2.TaskResponse, _abc.Awaitable[_mission_autonomy_pb2.TaskResponse]]: ...
+
+    @_abc_1.abstractmethod
+    def ResumeTask(
+        self,
+        request: _mission_autonomy_pb2.ResumeTaskRequest,
         context: _ServicerContext,
     ) -> _typing.Union[_mission_autonomy_pb2.TaskResponse, _abc.Awaitable[_mission_autonomy_pb2.TaskResponse]]: ...
 
