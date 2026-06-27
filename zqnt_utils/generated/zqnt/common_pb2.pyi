@@ -161,6 +161,7 @@ class AssetTypeEnum(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     ASSET_TYPE_JAMMER: _ClassVar[AssetTypeEnum]
     ASSET_TYPE_CYBER_ATTACK: _ClassVar[AssetTypeEnum]
     ASSET_TYPE_SAPIENT: _ClassVar[AssetTypeEnum]
+    ASSET_TYPE_RNS: _ClassVar[AssetTypeEnum]
 
 class AssetVendor(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -171,6 +172,7 @@ class AssetVendor(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     ASSET_VENDOR_RTMP_RTSP: _ClassVar[AssetVendor]
     ASSET_VENDOR_SAPIENT: _ClassVar[AssetVendor]
     ASSET_VENDOR_BETAFLIGHT: _ClassVar[AssetVendor]
+    ASSET_VENDOR_RNS: _ClassVar[AssetVendor]
 
 class AssetConnection(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -540,6 +542,7 @@ ASSET_TYPE_OTHER: AssetTypeEnum
 ASSET_TYPE_JAMMER: AssetTypeEnum
 ASSET_TYPE_CYBER_ATTACK: AssetTypeEnum
 ASSET_TYPE_SAPIENT: AssetTypeEnum
+ASSET_TYPE_RNS: AssetTypeEnum
 ASSET_VENDOR_DJI: AssetVendor
 ASSET_VENDOR_AUTEL: AssetVendor
 ASSET_VENDOR_ROS: AssetVendor
@@ -547,6 +550,7 @@ ASSET_VENDOR_MAVLINK: AssetVendor
 ASSET_VENDOR_RTMP_RTSP: AssetVendor
 ASSET_VENDOR_SAPIENT: AssetVendor
 ASSET_VENDOR_BETAFLIGHT: AssetVendor
+ASSET_VENDOR_RNS: AssetVendor
 MQTT: AssetConnection
 TCP: AssetConnection
 SERIAL: AssetConnection
