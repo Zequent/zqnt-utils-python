@@ -103,10 +103,15 @@ class AssetAirConditionerStateEnum(int, metaclass=_enum_type_wrapper.EnumTypeWra
     AIR_CONDITIONER_COOLING_EXIT: _ClassVar[AssetAirConditionerStateEnum]
     AIR_CONDITIONER_HEATING_EXIT: _ClassVar[AssetAirConditionerStateEnum]
     AIR_CONDITIONER_DEHUMIDIFICATION_EXIT: _ClassVar[AssetAirConditionerStateEnum]
-    AIR_CONDITIONER_COOLING_PREPARATION: _ClassVar[AssetAirConditionerStateEnum]
-    AIR_CONDITIONER_HEATING_PREPARATION: _ClassVar[AssetAirConditionerStateEnum]
-    AIR_CONDITIONER_DEHUMIDIFICATION_PREPARATION: _ClassVar[AssetAirConditionerStateEnum]
-    AIR_CONDITIONER_DISCONNECTED: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_COOLING_READY: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_HEATING_READY: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_DEHUMIDIFICATION_READY: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_PREPARING_FOR_AIR_COOLING: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_AIR_COOLING_IN_PROGRESS: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_AIR_COOLING_EXITING: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_PREPARING_FOR_DEFOGGER: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_DEFOGGER_IN_PROGRESS: _ClassVar[AssetAirConditionerStateEnum]
+    AIR_CONDITIONER_DEFOGGER_EXITING: _ClassVar[AssetAirConditionerStateEnum]
 
 class AssetMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -496,10 +501,15 @@ AIR_CONDITIONER_DEHUMIDIFICATION: AssetAirConditionerStateEnum
 AIR_CONDITIONER_COOLING_EXIT: AssetAirConditionerStateEnum
 AIR_CONDITIONER_HEATING_EXIT: AssetAirConditionerStateEnum
 AIR_CONDITIONER_DEHUMIDIFICATION_EXIT: AssetAirConditionerStateEnum
-AIR_CONDITIONER_COOLING_PREPARATION: AssetAirConditionerStateEnum
-AIR_CONDITIONER_HEATING_PREPARATION: AssetAirConditionerStateEnum
-AIR_CONDITIONER_DEHUMIDIFICATION_PREPARATION: AssetAirConditionerStateEnum
-AIR_CONDITIONER_DISCONNECTED: AssetAirConditionerStateEnum
+AIR_CONDITIONER_COOLING_READY: AssetAirConditionerStateEnum
+AIR_CONDITIONER_HEATING_READY: AssetAirConditionerStateEnum
+AIR_CONDITIONER_DEHUMIDIFICATION_READY: AssetAirConditionerStateEnum
+AIR_CONDITIONER_PREPARING_FOR_AIR_COOLING: AssetAirConditionerStateEnum
+AIR_CONDITIONER_AIR_COOLING_IN_PROGRESS: AssetAirConditionerStateEnum
+AIR_CONDITIONER_AIR_COOLING_EXITING: AssetAirConditionerStateEnum
+AIR_CONDITIONER_PREPARING_FOR_DEFOGGER: AssetAirConditionerStateEnum
+AIR_CONDITIONER_DEFOGGER_IN_PROGRESS: AssetAirConditionerStateEnum
+AIR_CONDITIONER_DEFOGGER_EXITING: AssetAirConditionerStateEnum
 ASSET_MODE_IDLE: AssetMode
 ASSET_MODE_DEBUGGING: AssetMode
 ASSET_MODE_REMOTE_DEBUGGING: AssetMode

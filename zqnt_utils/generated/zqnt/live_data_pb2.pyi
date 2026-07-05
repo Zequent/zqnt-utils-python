@@ -18,10 +18,19 @@ class NotificationEventType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     NOTIFICATION_EVENT_ASSET_STATUS: _ClassVar[NotificationEventType]
     NOTIFICATION_EVENT_TASK: _ClassVar[NotificationEventType]
     NOTIFICATION_EVENT_OPERATION: _ClassVar[NotificationEventType]
+
+class NotificationSeverity(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    NOTIFICATION_SEVERITY_INFO: _ClassVar[NotificationSeverity]
+    NOTIFICATION_SEVERITY_WARN: _ClassVar[NotificationSeverity]
+    NOTIFICATION_SEVERITY_CRITICAL: _ClassVar[NotificationSeverity]
 NOTIFICATION_EVENT_UNSPECIFIED: NotificationEventType
 NOTIFICATION_EVENT_ASSET_STATUS: NotificationEventType
 NOTIFICATION_EVENT_TASK: NotificationEventType
 NOTIFICATION_EVENT_OPERATION: NotificationEventType
+NOTIFICATION_SEVERITY_INFO: NotificationSeverity
+NOTIFICATION_SEVERITY_WARN: NotificationSeverity
+NOTIFICATION_SEVERITY_CRITICAL: NotificationSeverity
 
 class LiveDataResponse(_message.Message):
     __slots__ = ("tid", "timestamp", "has_errors", "sn", "asset_id", "response_message", "asset_telemetry", "sub_asset_telemetry", "empty", "error", "live_stream_start_response")
@@ -194,7 +203,16 @@ class LiveDataDetectionResponse(_message.Message):
     def __init__(self, tid: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., has_errors: bool = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., detections: _Optional[_Union[_common_pb2.DetectionBatch, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ...) -> None: ...
 
 class AssetTelemetry(_message.Message):
-    __slots__ = ("id", "timestamp", "latitude", "longitude", "absolute_altitude", "relative_altitude", "environment_temp", "inside_temp", "humidity", "mode", "rainfall", "sub_asset_information", "sub_asset_at_home", "sub_asset_charging", "sub_asset_percentage", "heading", "debug_mode_open", "has_active_manual_control_session", "cover_state", "working_voltage", "working_current", "supply_voltage", "wind_speed", "position_valid", "network_information", "air_conditioner", "manual_control_state", "position_state")
+    __slots__ = ("id", "timestamp", "latitude", "longitude", "absolute_altitude", "relative_altitude", "environment_temp", "inside_temp", "humidity", "mode", "rainfall", "sub_asset_information", "sub_asset_at_home", "sub_asset_charging", "sub_asset_percentage", "heading", "debug_mode_open", "has_active_manual_control_session", "cover_state", "working_voltage", "working_current", "supply_voltage", "wind_speed", "position_valid", "network_information", "air_conditioner", "manual_control_state", "position_state", "sn", "wireless_link", "sdr_state")
+    class AssetSdrState(_message.Message):
+        __slots__ = ("down_quality", "up_quality", "frequency_band")
+        DOWN_QUALITY_FIELD_NUMBER: _ClassVar[int]
+        UP_QUALITY_FIELD_NUMBER: _ClassVar[int]
+        FREQUENCY_BAND_FIELD_NUMBER: _ClassVar[int]
+        down_quality: int
+        up_quality: int
+        frequency_band: float
+        def __init__(self, down_quality: _Optional[int] = ..., up_quality: _Optional[int] = ..., frequency_band: _Optional[float] = ...) -> None: ...
     class PositionState(_message.Message):
         __slots__ = ("gps_number", "rtk_number", "quality")
         GPS_NUMBER_FIELD_NUMBER: _ClassVar[int]
@@ -220,6 +238,29 @@ class AssetTelemetry(_message.Message):
         rate: float
         quality: _common_pb2.NetworkStateQualityEnum
         def __init__(self, type: _Optional[_Union[_common_pb2.NetworkTypeEnum, str]] = ..., rate: _Optional[float] = ..., quality: _Optional[_Union[_common_pb2.NetworkStateQualityEnum, str]] = ...) -> None: ...
+    class AssetWirelessLinkInformation(_message.Message):
+        __slots__ = ("fourth_generation_freq_band", "fourth_generation_gnd_quality", "fourth_generation_link_state", "fourth_generation_quality", "fourth_generation_uav_quality", "dongle_number", "link_workmode", "sdr_freq_band", "sdr_link_state", "sdr_quality")
+        FOURTH_GENERATION_FREQ_BAND_FIELD_NUMBER: _ClassVar[int]
+        FOURTH_GENERATION_GND_QUALITY_FIELD_NUMBER: _ClassVar[int]
+        FOURTH_GENERATION_LINK_STATE_FIELD_NUMBER: _ClassVar[int]
+        FOURTH_GENERATION_QUALITY_FIELD_NUMBER: _ClassVar[int]
+        FOURTH_GENERATION_UAV_QUALITY_FIELD_NUMBER: _ClassVar[int]
+        DONGLE_NUMBER_FIELD_NUMBER: _ClassVar[int]
+        LINK_WORKMODE_FIELD_NUMBER: _ClassVar[int]
+        SDR_FREQ_BAND_FIELD_NUMBER: _ClassVar[int]
+        SDR_LINK_STATE_FIELD_NUMBER: _ClassVar[int]
+        SDR_QUALITY_FIELD_NUMBER: _ClassVar[int]
+        fourth_generation_freq_band: float
+        fourth_generation_gnd_quality: int
+        fourth_generation_link_state: bool
+        fourth_generation_quality: int
+        fourth_generation_uav_quality: int
+        dongle_number: int
+        link_workmode: str
+        sdr_freq_band: float
+        sdr_link_state: bool
+        sdr_quality: int
+        def __init__(self, fourth_generation_freq_band: _Optional[float] = ..., fourth_generation_gnd_quality: _Optional[int] = ..., fourth_generation_link_state: bool = ..., fourth_generation_quality: _Optional[int] = ..., fourth_generation_uav_quality: _Optional[int] = ..., dongle_number: _Optional[int] = ..., link_workmode: _Optional[str] = ..., sdr_freq_band: _Optional[float] = ..., sdr_link_state: bool = ..., sdr_quality: _Optional[int] = ...) -> None: ...
     class AssetSubAssetInformation(_message.Message):
         __slots__ = ("sn", "model", "paired", "online")
         SN_FIELD_NUMBER: _ClassVar[int]
@@ -259,6 +300,9 @@ class AssetTelemetry(_message.Message):
     AIR_CONDITIONER_FIELD_NUMBER: _ClassVar[int]
     MANUAL_CONTROL_STATE_FIELD_NUMBER: _ClassVar[int]
     POSITION_STATE_FIELD_NUMBER: _ClassVar[int]
+    SN_FIELD_NUMBER: _ClassVar[int]
+    WIRELESS_LINK_FIELD_NUMBER: _ClassVar[int]
+    SDR_STATE_FIELD_NUMBER: _ClassVar[int]
     id: str
     timestamp: _timestamp_pb2.Timestamp
     latitude: float
@@ -287,7 +331,10 @@ class AssetTelemetry(_message.Message):
     air_conditioner: AssetTelemetry.AssetAirConditioner
     manual_control_state: _common_pb2.ManualControlStateEnum
     position_state: AssetTelemetry.PositionState
-    def __init__(self, id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., latitude: _Optional[float] = ..., longitude: _Optional[float] = ..., absolute_altitude: _Optional[float] = ..., relative_altitude: _Optional[float] = ..., environment_temp: _Optional[float] = ..., inside_temp: _Optional[float] = ..., humidity: _Optional[float] = ..., mode: _Optional[_Union[_common_pb2.AssetMode, str]] = ..., rainfall: _Optional[_Union[_common_pb2.RainfallEnum, str]] = ..., sub_asset_information: _Optional[_Union[AssetTelemetry.AssetSubAssetInformation, _Mapping]] = ..., sub_asset_at_home: bool = ..., sub_asset_charging: bool = ..., sub_asset_percentage: _Optional[float] = ..., heading: _Optional[float] = ..., debug_mode_open: bool = ..., has_active_manual_control_session: bool = ..., cover_state: _Optional[_Union[_common_pb2.AssetCoverStateEnum, str]] = ..., working_voltage: _Optional[int] = ..., working_current: _Optional[int] = ..., supply_voltage: _Optional[int] = ..., wind_speed: _Optional[float] = ..., position_valid: bool = ..., network_information: _Optional[_Union[AssetTelemetry.AssetNetworkInformation, _Mapping]] = ..., air_conditioner: _Optional[_Union[AssetTelemetry.AssetAirConditioner, _Mapping]] = ..., manual_control_state: _Optional[_Union[_common_pb2.ManualControlStateEnum, str]] = ..., position_state: _Optional[_Union[AssetTelemetry.PositionState, _Mapping]] = ...) -> None: ...
+    sn: str
+    wireless_link: AssetTelemetry.AssetWirelessLinkInformation
+    sdr_state: AssetTelemetry.AssetSdrState
+    def __init__(self, id: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., latitude: _Optional[float] = ..., longitude: _Optional[float] = ..., absolute_altitude: _Optional[float] = ..., relative_altitude: _Optional[float] = ..., environment_temp: _Optional[float] = ..., inside_temp: _Optional[float] = ..., humidity: _Optional[float] = ..., mode: _Optional[_Union[_common_pb2.AssetMode, str]] = ..., rainfall: _Optional[_Union[_common_pb2.RainfallEnum, str]] = ..., sub_asset_information: _Optional[_Union[AssetTelemetry.AssetSubAssetInformation, _Mapping]] = ..., sub_asset_at_home: bool = ..., sub_asset_charging: bool = ..., sub_asset_percentage: _Optional[float] = ..., heading: _Optional[float] = ..., debug_mode_open: bool = ..., has_active_manual_control_session: bool = ..., cover_state: _Optional[_Union[_common_pb2.AssetCoverStateEnum, str]] = ..., working_voltage: _Optional[int] = ..., working_current: _Optional[int] = ..., supply_voltage: _Optional[int] = ..., wind_speed: _Optional[float] = ..., position_valid: bool = ..., network_information: _Optional[_Union[AssetTelemetry.AssetNetworkInformation, _Mapping]] = ..., air_conditioner: _Optional[_Union[AssetTelemetry.AssetAirConditioner, _Mapping]] = ..., manual_control_state: _Optional[_Union[_common_pb2.ManualControlStateEnum, str]] = ..., position_state: _Optional[_Union[AssetTelemetry.PositionState, _Mapping]] = ..., sn: _Optional[str] = ..., wireless_link: _Optional[_Union[AssetTelemetry.AssetWirelessLinkInformation, _Mapping]] = ..., sdr_state: _Optional[_Union[AssetTelemetry.AssetSdrState, _Mapping]] = ...) -> None: ...
 
 class SubAssetTelemetry(_message.Message):
     __slots__ = ("id", "timestamp", "latitude", "longitude", "absolute_altitude", "relative_altitude", "horizontal_speed", "vertical_speed", "wind_speed", "wind_direction", "heading", "gear", "payload_telemetry", "battery_information", "height_limit", "home_distance", "total_movement_distance", "total_movement_time", "mode", "country")
@@ -396,14 +443,16 @@ class LiveDataStreamNotificationsRequest(_message.Message):
     def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., event_types: _Optional[_Iterable[_Union[NotificationEventType, str]]] = ...) -> None: ...
 
 class AssetStatusEvent(_message.Message):
-    __slots__ = ("sn", "asset_id", "online")
+    __slots__ = ("sn", "asset_id", "online", "message")
     SN_FIELD_NUMBER: _ClassVar[int]
     ASSET_ID_FIELD_NUMBER: _ClassVar[int]
     ONLINE_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
     sn: str
     asset_id: str
     online: bool
-    def __init__(self, sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., online: bool = ...) -> None: ...
+    message: str
+    def __init__(self, sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., online: bool = ..., message: _Optional[str] = ...) -> None: ...
 
 class TaskEvent(_message.Message):
     __slots__ = ("task_id", "task_type", "status", "progress", "message", "external_task_type")
@@ -456,15 +505,19 @@ class LiveDataNotificationResponse(_message.Message):
     def __init__(self, tid: _Optional[str] = ..., timestamp: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., has_errors: bool = ..., sn: _Optional[str] = ..., asset_id: _Optional[str] = ..., asset_status: _Optional[_Union[AssetStatusEvent, _Mapping]] = ..., task_event: _Optional[_Union[TaskEvent, _Mapping]] = ..., operation_event: _Optional[_Union[OperationEvent, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ...) -> None: ...
 
 class ProduceNotificationRequest(_message.Message):
-    __slots__ = ("base", "asset_status", "task_event", "operation_event", "error")
+    __slots__ = ("base", "asset_status", "task_event", "operation_event", "error", "severity", "eventType")
     BASE_FIELD_NUMBER: _ClassVar[int]
     ASSET_STATUS_FIELD_NUMBER: _ClassVar[int]
     TASK_EVENT_FIELD_NUMBER: _ClassVar[int]
     OPERATION_EVENT_FIELD_NUMBER: _ClassVar[int]
     ERROR_FIELD_NUMBER: _ClassVar[int]
+    SEVERITY_FIELD_NUMBER: _ClassVar[int]
+    EVENTTYPE_FIELD_NUMBER: _ClassVar[int]
     base: _common_pb2.RequestBase
     asset_status: AssetStatusEvent
     task_event: TaskEvent
     operation_event: OperationEvent
     error: _common_pb2.GlobalErrorMessage
-    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., asset_status: _Optional[_Union[AssetStatusEvent, _Mapping]] = ..., task_event: _Optional[_Union[TaskEvent, _Mapping]] = ..., operation_event: _Optional[_Union[OperationEvent, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ...) -> None: ...
+    severity: NotificationSeverity
+    eventType: NotificationEventType
+    def __init__(self, base: _Optional[_Union[_common_pb2.RequestBase, _Mapping]] = ..., asset_status: _Optional[_Union[AssetStatusEvent, _Mapping]] = ..., task_event: _Optional[_Union[TaskEvent, _Mapping]] = ..., operation_event: _Optional[_Union[OperationEvent, _Mapping]] = ..., error: _Optional[_Union[_common_pb2.GlobalErrorMessage, _Mapping]] = ..., severity: _Optional[_Union[NotificationSeverity, str]] = ..., eventType: _Optional[_Union[NotificationEventType, str]] = ...) -> None: ...
